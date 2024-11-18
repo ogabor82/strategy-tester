@@ -8,8 +8,8 @@ import optimization
 # Dictionary to store selected options
 selected_options = {
     "configuration": None,
-    "tickers": None,
-    "strategy": None,
+    "tickers": ["AAPL"],
+    "strategy": ["MaCross"],
 }
 
 def main_menu():
@@ -39,7 +39,8 @@ def main_menu():
         elif choice == '3':
             selected_options["strategy"] = choose_strategy.choose_strategy()
         elif choice == '4':
-            backtest.run_backtest(selected_options)
+            backtest.run_backtest(selected_options["strategy"], selected_options["tickers"], selected_options["configuration"])
+            input("Press any key to continue...")
         elif choice == '5':
             optimization.optimize(selected_options)        
         elif choice == '6':
