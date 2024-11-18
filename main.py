@@ -14,14 +14,21 @@ selected_options = {
 
 def main_menu():
     while True:
+        import os
+        os.system('cls' if os.name == 'nt' else 'clear')
+
+        print("Current selections:")
+        for key, value in selected_options.items():
+            print(f"{key.capitalize()}: {value}")
+
         print("\nMain Menu:")
         print("1. Choose configuration")
         print("2. Choose tickers")
         print("3. Choose strategy")
         print("4. Backtest")
         print("5. Optimization")
-        print("6. Show current selections")
-        print("7. Exit")
+        print("6. Exit")
+
 
         choice = input("Select an option (1-7): ")
 
@@ -34,12 +41,8 @@ def main_menu():
         elif choice == '4':
             backtest.run_backtest(selected_options)
         elif choice == '5':
-            optimization.optimize(selected_options)
+            optimization.optimize(selected_options)        
         elif choice == '6':
-            print("Current selections:")
-            for key, value in selected_options.items():
-                print(f"{key.capitalize()}: {value}")
-        elif choice == '7':
             print("Exiting the application.")
             break
         else:
