@@ -4,10 +4,17 @@ import choose_tickers
 import choose_strategy
 import backtest
 import optimization
+import json
+
+# Load configuration from JSON
+def load_configuration():
+    with open('configuration/configuration.json') as config_file:
+        config_data = json.load(config_file)
+    return config_data["configurations"]["default"]  # Adjust as necessary
 
 # Dictionary to store selected options
 selected_options = {
-    "configuration": None,
+    "configuration": load_configuration(),  # Load the default configuration
     "tickers": ["AAPL"],
     "strategy": ["MaCross"],
 }
