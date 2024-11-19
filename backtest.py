@@ -17,12 +17,17 @@ def run_backtest(strategy, tickers, configuration):
     END_DATE = '2024-03-12'
     FREQUENCY = '1d'
 
-    df_prices = yf_ticker = yf.Ticker(TICKER).history(start=START_DATE,end=END_DATE,interval=FREQUENCY)
-    df_prices.index = df_prices.index.tz_localize(None)
+    for ticker in tickers:
+        print(f"Running backtest for ticker: {ticker}")
+        df_prices = yf.Ticker(ticker).history(start=START_DATE, end=END_DATE, interval=FREQUENCY)
+        df_prices.index = df_prices.index.tz_localize(None)
 
-    bt = Backtest(df_prices, SmaCrossAdx, cash=10_000, commission=0, exclusive_orders=True)
-    stats = bt.run()
-    print(stats)
-    print(stats._trades)
-    bt.plot()
+        # bt = Backtest(df_prices, strategy, cash=10_000, commission=0, exclusive_orders=True)
+        bt = Backtest(df_prices, SmaCrossAdx, cash=10_000, commission=0, exclusive_orders=True)
+        stats = bt.run()        
+        print(stats)
+        # print(stats._trades)
+        bt.plot()
+
+
     
