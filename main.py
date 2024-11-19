@@ -57,6 +57,7 @@ def main_menu():
             input("Press any key to continue...")
         elif choice == '5':
             optimization.optimize(selected_options)        
+            input("Press any key to continue...")
         elif choice == '6':
             print("Exiting the application.")
             break

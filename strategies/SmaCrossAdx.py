@@ -10,7 +10,7 @@ def MovingAverage(closes:pd.Series, n:int) -> pd.Series:
 
 class SmaCrossAdx(Strategy):
     sma_fast = 20
-    sma_slow = 25
+    sma_slow = 40
     adx = 14
     
     def init(self):
