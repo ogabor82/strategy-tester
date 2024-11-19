@@ -1,10 +1,14 @@
-{
-  "configurations": {
-    "default": {
-      "name": "default",
-      "start_date": "2020-01-01",
-      "end_date": "2020-12-31",
-      "interval": "1d"
-    }
+[
+  {
+    "name": "default",
+    "start_date": "2018-01-01",
+    "end_date": "2024-03-12",
+    "interval": "1d"
+  },
+  {
+    "name": "2020",
+    "start_date": "2020-01-01",
+    "end_date": "2020-12-31",
+    "interval": "1d"
   }
-}
+]

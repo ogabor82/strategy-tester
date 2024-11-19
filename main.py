@@ -10,7 +10,7 @@ import json
 def load_configuration():
     with open('configuration/configuration.json') as config_file:
         config_data = json.load(config_file)
-    return config_data["configurations"]["default"]  # Adjust as necessary
+    return config_data[0]  # Adjust as necessary
 
 # Dictionary to store selected options
 selected_options = {
@@ -48,7 +48,12 @@ def main_menu():
         elif choice == '3':
             selected_options["strategy"] = choose_strategy.choose_strategy()
         elif choice == '4':
-            backtest.run_backtest(selected_options["strategy"], selected_options["tickers"], selected_options["configuration"], selected_options["backtest_plot"], selected_options["backtest_results"])
+            backtest.run_backtest(selected_options["strategy"], 
+                                  selected_options["tickers"], 
+                                  selected_options["configuration"], 
+                                  selected_options["backtest_plot"], 
+                                  selected_options["backtest_results"]
+                                  )
             input("Press any key to continue...")
         elif choice == '5':
             optimization.optimize(selected_options)        

@@ -10,14 +10,12 @@ def run_backtest(strategy, tickers, configuration, backtest_plot, backtest_resul
     print(f"Strategy: {strategy}")
     print(f"Tickers: {tickers}")
     print(f"Configuration: {configuration}")
-    # Here you can add logic to perform the backtest
+    # logic to perform the backtest
     # using the selected strategy, tickers, and configuration
 
-    TICKER = tickers[0]
-    START_DATE = '2018-01-01'
-    #START_DATE = '2023-01-01'
-    END_DATE = '2024-03-12'
-    FREQUENCY = '1d'
+    START_DATE = configuration["start_date"]
+    END_DATE = configuration["end_date"]
+    FREQUENCY = configuration["interval"]
 
     for ticker in tickers:
         print(f"Running backtest for ticker: {ticker}")
