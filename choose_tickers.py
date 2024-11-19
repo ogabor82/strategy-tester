@@ -2,7 +2,7 @@
 def choose_tickers():
     ticker_sets = [
         {"name": "Tech Giants", "tickers": ["AAPL", "GOOGL", "MSFT", "AMZN"]},
-        {"name": "FAANG", "tickers": ["FB", "AAPL", "AMZN", "NFLX", "GOOGL"]},
+        {"name": "FAANG", "tickers": ["META", "AAPL", "AMZN", "NFLX", "GOOGL"]},
         {"name": "Cryptocurrencies", "tickers": ["BTC-USD", "ETH-USD", "LTC-USD", "SOL-USD", "AVAX-USD"]},
         {"name": "Forex Majors", "tickers": ["EURUSD=X", "JPY=X", "GBPUSD=X", "AUDUSD=X"]},
         {"name": "Commodities", "tickers": ["GC=F", "SI=F", "CL=F", "HG=F"]},
