@@ -17,6 +17,8 @@ selected_options = {
     "configuration": load_configuration(),  # Load the default configuration
     "tickers": ["AAPL"],
     "strategy": ["MaCross"],
+    "backtest_plot": False,
+    "backtest_results": "compact"
 }
 
 def main_menu():
@@ -46,7 +48,7 @@ def main_menu():
         elif choice == '3':
             selected_options["strategy"] = choose_strategy.choose_strategy()
         elif choice == '4':
-            backtest.run_backtest(selected_options["strategy"], selected_options["tickers"], selected_options["configuration"])
+            backtest.run_backtest(selected_options["strategy"], selected_options["tickers"], selected_options["configuration"], selected_options["backtest_plot"], selected_options["backtest_results"])
             input("Press any key to continue...")
         elif choice == '5':
             optimization.optimize(selected_options)        
