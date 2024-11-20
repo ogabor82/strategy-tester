@@ -1,5 +1,6 @@
 # trading_backtest/backtest.py
 from strategies.SmaCrossAdx import SmaCrossAdx
+from strategies.SeriousMACD import SeriousMACD
 from backtesting import Backtest
 import yfinance as yf
 
@@ -18,13 +19,22 @@ def run_backtest(selected_options):
     END_DATE = selected_options["configuration"]["end_date"]
     FREQUENCY = selected_options["configuration"]["interval"]
 
+
+
+    if selected_options["strategy"]["name"] == "MaCross":
+        strategy = SmaCrossAdx
+        strategy_id = 1
+    elif selected_options["strategy"]["name"] == "SeriousMACD":
+        strategy = SeriousMACD
+        strategy_id = 2
+
+
     for ticker in selected_options["tickers"]:
         print(f"Running backtest for ticker: {ticker}")
         df_prices = yf.Ticker(ticker).history(start=START_DATE, end=END_DATE, interval=FREQUENCY)
         df_prices.index = df_prices.index.tz_localize(None)
 
-        # bt = Backtest(df_prices, strategy, cash=10_000, commission=0, exclusive_orders=True)
-        bt = Backtest(df_prices, SmaCrossAdx, cash=10_000, commission=0, exclusive_orders=True)
+        bt = Backtest(df_prices, strategy, cash=10_000, commission=0, exclusive_orders=True)        
         stats = bt.run()        
 
         if selected_options["backtest_results"] == "compact":
@@ -60,7 +70,7 @@ def run_backtest(selected_options):
             """, (
                 selected_options["selected_session"][0],
                 selected_options["configuration"]["name"],
-                1,  # strategy_id placeholder
+                strategy_id,
                 ticker,
                 START_DATE,
                 END_DATE,

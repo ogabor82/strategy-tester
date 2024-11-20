@@ -2,8 +2,7 @@
 def choose_strategy():
     strategies = [
         {"name": "MaCross", "module": "ma_cross"},
-        {"name": "RSI", "module": "rsi"},
-        {"name": "Bollinger Bands", "module": "bollinger_bands"},
+        {"name": "SeriousMACD", "module": "serious_macd"},
     ]
     print("Choose a strategy:")
     for i, strategy in enumerate(strategies, start=1):
