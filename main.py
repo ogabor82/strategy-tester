@@ -5,6 +5,7 @@ import choose_strategy
 import backtest
 import optimization
 import json
+from db.db import init_db
 
 # Load configuration from JSON
 def load_configuration():
@@ -22,6 +23,9 @@ selected_options = {
 }
 
 def main_menu():
+    init_db()
+
+
     while True:
         import os
         os.system('cls' if os.name == 'nt' else 'clear')

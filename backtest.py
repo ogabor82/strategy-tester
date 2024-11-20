@@ -33,14 +33,14 @@ def run_backtest(strategy, tickers, configuration, backtest_plot, backtest_resul
             print("Return [%]", result_data["Return [%]"])
             print("Buy & Hold Return [%]", result_data["Buy & Hold Return [%]"])
             print("Max. Drawdown [%]", result_data["Max. Drawdown [%]"])
+            print("# Trades", result_data["# Trades"])
+            print("Win Rate [%]", result_data["Win Rate [%]"])
+            print("Sharpe Ratio", result_data["Sharpe Ratio"])       
+            print("Kelly Criterion", result_data["Kelly Criterion"])
             # print(result_data)
         elif backtest_results == "detailed":
             print(stats)
-            print(stats._trades)
-            print(stats._trades['pnl'].sum())
-            print(stats._trades['duration'].mean())
-            print(stats._trades['duration'].max())
-            print(stats._trades['duration'].min())            
+            # print(stats._trades)           
         if backtest_plot:    
             bt.plot()
 
