@@ -35,4 +35,26 @@ def get_backtest_sessions():
     init_db()
     cursor = DB.cursor()
     cursor.execute("SELECT * FROM backtest_session")
-    return cursor.fetchall()
+    rows = cursor.fetchall()
+    return [dict(row) for row in rows]
+
+def get_backtest_slices_by_session_id(session_id: int):
+    init_db()
+    cursor = DB.cursor()
+    cursor.execute("SELECT * FROM backtest_slice WHERE backtest_session_id = ?", (session_id,))
+    rows = cursor.fetchall()
+    return [dict(row) for row in rows]
+
+def get_strategies():
+    init_db()
+    cursor = DB.cursor()
+    cursor.execute("SELECT * FROM strategy")
+    rows = cursor.fetchall()
+    return [dict(row) for row in rows]
+
+def get_backtest_slices_by_strategy_id(strategy_id: int):
+    init_db()
+    cursor = DB.cursor()
+    cursor.execute("SELECT * FROM backtest_slice WHERE strategy_id = ?", (strategy_id,))
+    rows = cursor.fetchall()
+    return [dict(row) for row in rows]
