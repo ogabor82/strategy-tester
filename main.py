@@ -4,6 +4,7 @@ import choose_tickers
 import choose_strategy
 import backtest
 import optimization
+import create_session
 import json
 from db.db import init_db
 
@@ -40,7 +41,8 @@ def main_menu():
         print("3. Choose strategy")
         print("4. Backtest")
         print("5. Optimization")
-        print("6. Exit")
+        print("6. Create backtest session")
+        print("9. Exit")
 
 
         choice = input("Select an option (1-7): ")
@@ -63,6 +65,9 @@ def main_menu():
             optimization.optimize(selected_options)        
             input("Press any key to continue...")
         elif choice == '6':
+            create_session.create_session()
+            input("Press any key to continue...")            
+        elif choice == '9':
             print("Exiting the application.")
             break
         else:
