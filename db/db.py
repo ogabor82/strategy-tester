@@ -87,3 +87,9 @@ def create_tables():
     except sqlite3.Error as e:
         print(f"Error creating table: {e}")
         return e
+    
+def load_last_session():
+    global DB
+    cursor = DB.cursor()
+    cursor.execute("SELECT * FROM backtest_session ORDER BY id DESC LIMIT 1")
+    return cursor.fetchone()

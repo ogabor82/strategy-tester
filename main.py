@@ -6,7 +6,7 @@ import backtest
 import optimization
 import create_session
 import json
-from db.db import init_db
+from db.db import init_db, load_last_session
 
 # Load configuration from JSON
 def load_configuration():
@@ -20,11 +20,13 @@ selected_options = {
     "tickers": ["AAPL"],
     "strategy": ["MaCross"],
     "backtest_plot": False,
-    "backtest_results": "compact"
+    "backtest_results": "compact",
+    "selected_session":  "None"
 }
 
 def main_menu():
     init_db()
+    selected_options["selected_session"] = load_last_session()
 
 
     while True:
@@ -65,8 +67,9 @@ def main_menu():
             optimization.optimize(selected_options)        
             input("Press any key to continue...")
         elif choice == '6':
-            create_session.create_session()
+            create_session.create_session()            
             input("Press any key to continue...")            
+            selected_options["selected_session"] = load_last_session()
         elif choice == '9':
             print("Exiting the application.")
             break
