@@ -41,7 +41,7 @@ def create_tables():
         "interval" VARCHAR,
         "return" FLOAT,
         "buyhold_return" FLOAT,
-        "max_drowdown" FLOAT,
+        "max_drawdown" FLOAT,
         "trades" INTEGER,
         "win_rate" FLOAT,
         "sharpe_ratio" FLOAT,
