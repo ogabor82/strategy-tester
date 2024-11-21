@@ -1,9 +1,8 @@
-import json
+from controllers.configuration_controller import get_configurations
 
 # trading_backtest/choose_configuration.py
-def choose_config():
-    with open('./configuration/configuration.json', 'r') as file:
-        configurations = json.load(file)
+def choose_config():    
+    configurations = get_configurations()
 
     print("Available configurations:")
     for i, config in enumerate(configurations):

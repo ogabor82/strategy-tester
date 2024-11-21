@@ -15,8 +15,8 @@ def run_backtest(selected_options):
     # logic to perform the backtest
     # using the selected strategy, tickers, and configuration
 
-    START_DATE = selected_options["configuration"]["start_date"]
-    END_DATE = selected_options["configuration"]["end_date"]
+    START_DATE = selected_options["configuration"]["start"]
+    END_DATE = selected_options["configuration"]["end"]
     FREQUENCY = selected_options["configuration"]["interval"]
 
     if selected_options["strategy"]["name"] == "MaCross":

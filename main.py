@@ -3,20 +3,15 @@ import choose_configuration
 import choose_tickers
 import choose_strategy
 import backtest
+from controllers.configuration_controller import get_configurations
 import optimization
 import create_session
 import json
 from db.db import init_db, load_last_session
 
-# Load configuration from JSON
-def load_configuration():
-    with open('configuration/configuration.json') as config_file:
-        config_data = json.load(config_file)
-    return config_data[0]  # Adjust as necessary
-
 # Dictionary to store selected options
 selected_options = {
-    "configuration": load_configuration(),  # Load the default configuration
+    "configuration": "None",  # Load the default configuration
     "tickers": ["AAPL"],
     "strategy": ["MaCross"],
     "backtest_plot": False,
@@ -26,8 +21,9 @@ selected_options = {
 
 def main_menu():
     init_db()
+    configurations = get_configurations()
+    selected_options["configuration"] = configurations[0]
     selected_options["selected_session"] = load_last_session()
-
 
     while True:
         import os
