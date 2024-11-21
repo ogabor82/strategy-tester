@@ -19,8 +19,6 @@ def run_backtest(selected_options):
     END_DATE = selected_options["configuration"]["end_date"]
     FREQUENCY = selected_options["configuration"]["interval"]
 
-
-
     if selected_options["strategy"]["name"] == "MaCross":
         strategy = SmaCrossAdx
         strategy_id = 1
