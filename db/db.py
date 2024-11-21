@@ -60,6 +60,11 @@ def create_tables():
         );
         ''')        
 
+        # Insert seed data into the configuration table
+        cursor.executemany('''
+        INSERT INTO configuration (id, name, start, end, interval) VALUES (?, ?, ?, ?, ?)
+        ''', configurations)        
+
         # Create the "strategy" table
         cursor.execute('''
         CREATE TABLE IF NOT EXISTS "strategy" (
