@@ -4,6 +4,7 @@ import choose_tickers
 import choose_strategy
 import backtest
 from controllers.configuration_controller import get_configurations
+from controllers.strategy_controller import get_strategies
 import optimization
 import create_session
 import json
@@ -13,7 +14,7 @@ from db.db import init_db, load_last_session
 selected_options = {
     "configuration": "None",  # Load the default configuration
     "tickers": ["AAPL"],
-    "strategy": ["MaCross"],
+    "strategy": "None",
     "backtest_plot": False,
     "backtest_results": "compact",
     "selected_session":  "None"
@@ -24,6 +25,8 @@ def main_menu():
     configurations = get_configurations()
     selected_options["configuration"] = configurations[0]
     selected_options["selected_session"] = load_last_session()
+    strategies = get_strategies()
+    selected_options["strategy"] = strategies[0]
 
     while True:
         import os
