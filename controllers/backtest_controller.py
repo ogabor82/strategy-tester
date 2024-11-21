@@ -24,7 +24,10 @@ def get_backtest_slices_by_session_id(backtest_id: int):
     init_db()
     cursor = DB.cursor()
     cursor.execute("""
-        SELECT * FROM backtest_slice WHERE backtest_session_id = ?
+        SELECT *, strategy.name as strategy_name
+        FROM backtest_slice
+        LEFT JOIN strategy ON backtest_slice.strategy_id = strategy.id
+        WHERE backtest_slice.backtest_session_id = ?
     """, (backtest_id,))
     rows = cursor.fetchall()
     result = [dict(row) for row in rows]
@@ -35,13 +38,6 @@ def get_backtest_sessions():
     init_db()
     cursor = DB.cursor()
     cursor.execute("SELECT * FROM backtest_session")
-    rows = cursor.fetchall()
-    return [dict(row) for row in rows]
-
-def get_backtest_slices_by_session_id(session_id: int):
-    init_db()
-    cursor = DB.cursor()
-    cursor.execute("SELECT * FROM backtest_slice WHERE backtest_session_id = ?", (session_id,))
     rows = cursor.fetchall()
     return [dict(row) for row in rows]
 
