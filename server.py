@@ -1,6 +1,7 @@
-from flask import Flask, jsonify, make_response
+from flask import Flask, jsonify, make_response, request
 from flask_cors import CORS, cross_origin
-from controllers.backtest_controller import get_backtest_slices, get_backtest_sessions, get_backtest_slices_by_session_id, get_backtest_slices_by_strategy_id, get_strategies
+from controllers.backtest_controller import get_backtest_slices, get_backtest_sessions, get_backtest_slices_by_session_id, get_backtest_slices_by_strategy_id
+from controllers.strategy_controller import create_strategy, get_strategies
 
 app = Flask(__name__)
 cors = CORS(app) 
@@ -28,6 +29,15 @@ def backtest_session(id):
 def strategies():
     strategies = get_strategies()
     return jsonify(strategies)
+
+@app.route('/strategies', methods=['POST'])
+@cross_origin()
+def create_new_strategy():
+    data = request.get_json()
+    name = data.get('name')
+    description = data.get('description')
+    create_strategy(name, description)
+    return jsonify({"message": "Strategy created"})
 
 @app.route('/strategies/<int:id>', methods=['GET'])
 @cross_origin()

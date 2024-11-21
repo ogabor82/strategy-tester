@@ -63,7 +63,8 @@ def create_tables():
         cursor.execute('''
         CREATE TABLE IF NOT EXISTS "strategy" (
         "id" INTEGER PRIMARY KEY,
-        "name" VARCHAR
+        "name" VARCHAR,
+        "description" VARCHAR
         );
         ''')     
 
