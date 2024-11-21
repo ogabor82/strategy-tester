@@ -1,4 +1,5 @@
 import sqlite3
+from db.db_seed import strategies, configurations
 
 DB = None
 
@@ -68,21 +69,10 @@ def create_tables():
         );
         ''')     
 
-        # Add foreign key constraints
-        cursor.execute('''
-        ALTER TABLE "backtest_slice"
-        ADD FOREIGN KEY ("configuration_id") REFERENCES "configuration" ("id");
-        ''')
-
-        cursor.execute('''
-        ALTER TABLE "backtest_slice"
-        ADD FOREIGN KEY ("strategy_id") REFERENCES "strategy" ("id");
-        ''')
-
-        cursor.execute('''
-        ALTER TABLE "backtest_slice"
-        ADD FOREIGN KEY ("backtest_session_id") REFERENCES "backtest_session" ("id");
-        ''')           
+        # Insert seed data into the strategy table
+        cursor.executemany('''
+        INSERT INTO strategy (id, name, description) VALUES (?, ?, ?)
+        ''', strategies)   
 
         DB.commit()
     except sqlite3.Error as e:
