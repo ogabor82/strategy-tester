@@ -7,7 +7,6 @@ from controllers.configuration_controller import get_configurations
 from controllers.strategy_controller import get_strategies
 import optimization
 import create_session
-import json
 from db.db import init_db, load_last_session
 
 # Dictionary to store selected options
@@ -15,7 +14,7 @@ selected_options = {
     "configuration": "None",  # Load the default configuration
     "tickers": ["AAPL"],
     "strategy": "None",
-    "backtest_plot": False,
+    "backtest_plot": True,
     "backtest_results": "compact",
     "selected_session":  "None"
 }

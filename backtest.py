@@ -1,6 +1,6 @@
 # trading_backtest/backtest.py
-from strategies.SmaCrossAdx import SmaCrossAdx
-from strategies.SeriousMACD import SeriousMACD
+from strategies.SmaCrossAdx.SmaCrossAdx import SmaCrossAdx
+from strategies.SeriousMACD.SeriousMACD import SeriousMACD
 from backtesting import Backtest
 import yfinance as yf
 
