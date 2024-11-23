@@ -1,5 +1,5 @@
 import sqlite3
-from db.db_seed import strategies, configurations
+from db.db_seed import strategies, configurations, timeframe_sets, timeframes
 
 DB = None
 
@@ -48,22 +48,38 @@ def create_tables():
         "sharpe_ratio" FLOAT,
         "kelly_criterion" FLOAT
         );
-        ''')        
+        ''')             
 
+        # Create the "timeframe_set" table
         cursor.execute('''
-        CREATE TABLE IF NOT EXISTS "configuration" (
+        CREATE TABLE IF NOT EXISTS "timeframe_set" (
         "id" INTEGER PRIMARY KEY,
+        "name" VARCHAR
+        );
+        ''')
+
+        # Insert seed data into the timeframe_set table
+        cursor.executemany('''
+        INSERT INTO timeframe_set (id, name) VALUES (?, ?)
+        ''', timeframe_sets)
+
+        # Create the "timeframe" table
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS "timeframe" (
+        "id" INTEGER PRIMARY KEY,
+        "timeframe_set_id" INTEGER,
         "name" VARCHAR,
         "start" DATETIME,
         "end" DATETIME,
         "interval" VARCHAR
         );
-        ''')        
+        ''')
 
-        # Insert seed data into the configuration table
+        # Insert seed data into the timeframe table
         cursor.executemany('''
-        INSERT INTO configuration (id, name, start, end, interval) VALUES (?, ?, ?, ?, ?)
-        ''', configurations)        
+        INSERT INTO timeframe (id, timeframe_set_id, name, start, end, interval) VALUES (?, ?, ?, ?, ?, ?)
+        ''', timeframes)
+
 
         # Create the "strategy" table
         cursor.execute('''

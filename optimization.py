@@ -32,7 +32,7 @@ def optimize(selected_options):
         strategy_id = 2    
 
     print("Available optimization sets:")
-    for i, opt_set in enumerate(SmaCrossAdxSets):
+    for i, opt_set in enumerate(optimization_sets):
         print(f"{i}: {opt_set}")
 
     selected_set_index = int(input("Select an optimization set by index: "))

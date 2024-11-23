@@ -3,6 +3,7 @@ from strategies.SmaCrossAdx.SmaCrossAdx import SmaCrossAdx
 from strategies.SeriousMACD.SeriousMACD import SeriousMACD
 from backtesting import Backtest
 import yfinance as yf
+from controllers.timeframe_set_controller import get_timeframes_by_timeframe_set_id
 
 from utils.results_extractor import extract_data
 import db.db
@@ -11,13 +12,13 @@ def run_backtest(selected_options):
     print("Running backtest with the following options:")
     print(f"Strategy: {selected_options['strategy']}")
     print(f"Tickers: {selected_options['tickers']}")
-    print(f"Configuration: {selected_options['configuration']}")
-    # logic to perform the backtest
-    # using the selected strategy, tickers, and configuration
+    print(f"Timeframe set: {selected_options['timeframe_set']}")    
 
-    START_DATE = selected_options["configuration"]["start"]
-    END_DATE = selected_options["configuration"]["end"]
-    FREQUENCY = selected_options["configuration"]["interval"]
+    timeframes = get_timeframes_by_timeframe_set_id(selected_options["timeframe_set"]["id"])
+
+    START_DATE = timeframes[0]["start"]
+    END_DATE = timeframes[0]["end"]
+    FREQUENCY = timeframes[0]["interval"]
 
     if selected_options["strategy"]["name"] == "MaCross":
         strategy = SmaCrossAdx
@@ -67,7 +68,7 @@ def run_backtest(selected_options):
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 selected_options["selected_session"][0],
-                selected_options["configuration"]["name"],
+                selected_options["timeframe_set"]["name"],
                 strategy_id,
                 ticker,
                 START_DATE,

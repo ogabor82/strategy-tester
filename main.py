@@ -1,9 +1,9 @@
 # trading_backtest/main.py
-import choose_configuration
+import choose_timeframe_set
 import choose_tickers
 import choose_strategy
 import backtest
-from controllers.configuration_controller import get_configurations
+from controllers.timeframe_set_controller import get_timeframe_sets
 from controllers.strategy_controller import get_strategies
 import optimization
 import create_session
@@ -11,7 +11,7 @@ from db.db import init_db, load_last_session
 
 # Dictionary to store selected options
 selected_options = {
-    "configuration": "None",  # Load the default configuration
+    "timeframe_set": "None",  # Load the default configuration
     "tickers": ["AAPL"],
     "strategy": "None",
     "backtest_plot": True,
@@ -21,8 +21,8 @@ selected_options = {
 
 def main_menu():
     init_db()
-    configurations = get_configurations()
-    selected_options["configuration"] = configurations[0]
+    timeframe_sets = get_timeframe_sets()
+    selected_options["timeframe_set"] = timeframe_sets[0]
     selected_options["selected_session"] = load_last_session()
     strategies = get_strategies()
     selected_options["strategy"] = strategies[0]
@@ -36,7 +36,7 @@ def main_menu():
             print(f"{key.capitalize()}: {value}")
 
         print("\nMain Menu:")
-        print("1. Choose configuration")
+        print("1. Choose timeframe set")
         print("2. Choose tickers")
         print("3. Choose strategy")
         print("4. Backtest")
@@ -48,7 +48,7 @@ def main_menu():
         choice = input("Select an option (1-7): ")
 
         if choice == '1':
-            selected_options["configuration"] = choose_configuration.choose_config()
+            selected_options["timeframe_set"] = choose_timeframe_set.choose_timeframe_set()
         elif choice == '2':
             selected_options["tickers"] = choose_tickers.choose_tickers()
         elif choice == '3':
