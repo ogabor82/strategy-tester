@@ -1,3 +1,4 @@
+from controllers.timeframe_set_controller import get_timeframes_by_timeframe_set_id
 from strategies.SeriousMACD.SeriousMACD import SeriousMACD
 from strategies.SmaCrossAdx.SmaCrossAdx import SmaCrossAdx
 from backtesting import Backtest
@@ -14,12 +15,13 @@ def optimize(selected_options):
     print("Running optimization with the following options:")
     print(f"Strategy: {selected_options['strategy']}")
     print(f"Tickers: {selected_options['tickers']}")
-    print(f"Configuration: {selected_options['configuration']}")
+    print(f"Timeframe set: {selected_options['timeframe_set']}")
     
+    timeframes = get_timeframes_by_timeframe_set_id(selected_options['timeframe_set']['id'])
 
-    START_DATE = selected_options['configuration']["start"]
-    END_DATE = selected_options['configuration']["end"]
-    FREQUENCY = selected_options['configuration']["interval"]
+    START_DATE = timeframes[0]["start"]
+    END_DATE = timeframes[0]["end"]
+    FREQUENCY = timeframes[0]["interval"]
 
     if selected_options["strategy"]["name"] == "MaCross":
         strategy = SmaCrossAdx

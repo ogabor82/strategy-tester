@@ -10,6 +10,7 @@ def choose_tickers():
         {"name": "Indexes", "tickers": ["^GSPC", "^DJI", "^IXIC", "^RUT"]},
         {"name": "ETFs", "tickers": ["SPY", "QQQ", "DIA", "IWM"]},
         {"name": "Bonds", "tickers": ["IEF", "TLT", "SHY", "LQD"]},
+        {"name": "Only BTC", "tickers": ["BTC-USD"]}
     ]
     print("Choose a set of tickers:")
     for i, ticker_set in enumerate(ticker_sets, start=1):

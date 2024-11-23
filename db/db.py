@@ -1,5 +1,5 @@
 import sqlite3
-from db.db_seed import strategies, configurations, timeframe_sets, timeframes
+from db.db_seed import strategies, timeframe_sets, timeframes
 
 DB = None
 
