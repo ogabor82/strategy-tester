@@ -1,4 +1,6 @@
+import json
 from controllers.timeframe_set_controller import get_timeframes_by_timeframe_set_id
+import db.db
 from strategies.SeriousMACD.SeriousMACD import SeriousMACD
 from strategies.SmaCrossAdx.SmaCrossAdx import SmaCrossAdx
 from backtesting import Backtest
@@ -62,6 +64,37 @@ def optimize(selected_options):
         print("Optimal sma_fast:", stats._strategy.sma_fast)
         print("Optimal sma_slow:", stats._strategy.sma_slow)
         print("-----------------------------")
+
+        optimization_results = {
+            "optimization_session_id": selected_options["optimization_session"][0],
+            "strategy_id": strategy_id,
+            "ticker": ticker,
+            "sma_fast": int(stats._strategy.sma_fast),
+            "sma_slow": int(stats._strategy.sma_slow)
+        }
+
+        cursor = db.db.DB.cursor()
+        cursor.execute("""
+            INSERT INTO optimization_slice (
+                optimization_session_id,
+                strategy_id,
+                ticker,
+                start,
+                end,
+                interval,
+                optimization_results
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (
+            selected_options["optimization_session"][0], 
+            strategy_id, 
+            ticker, 
+            START_DATE, 
+            END_DATE, 
+            FREQUENCY, 
+            json.dumps(optimization_results)
+        ))
+
+        db.db.DB.commit()
 
         sns.heatmap(heatmap.unstack())
         if selected_options['backtest_plot']:            

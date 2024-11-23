@@ -5,9 +5,10 @@ import choose_strategy
 import backtest
 from controllers.timeframe_set_controller import get_timeframe_sets
 from controllers.strategy_controller import get_strategies
+import create_optimization_session
 import optimization
 import create_session
-from db.db import init_db, load_last_session
+from db.db import init_db, load_last_optimization_session, load_last_session
 
 # Dictionary to store selected options
 selected_options = {
@@ -16,16 +17,18 @@ selected_options = {
     "strategy": "None",
     "backtest_plot": True,
     "backtest_results": "compact",
-    "selected_session":  "None"
+    "selected_session":  "None",
+    "optimization_session": "None"
 }
 
 def main_menu():
     init_db()
     timeframe_sets = get_timeframe_sets()
     selected_options["timeframe_set"] = timeframe_sets[0]
-    selected_options["selected_session"] = load_last_session()
+    selected_options["selected_session"] = load_last_session()    
     strategies = get_strategies()
     selected_options["strategy"] = strategies[0]
+    selected_options["optimization_session"] = load_last_optimization_session()
 
     while True:
         import os
@@ -42,6 +45,7 @@ def main_menu():
         print("4. Backtest")
         print("5. Optimization")
         print("6. Create backtest session")
+        print("7. Create optimization session")
         print("9. Exit")
 
 
@@ -63,6 +67,10 @@ def main_menu():
             create_session.create_session()            
             input("Press any key to continue...")            
             selected_options["selected_session"] = load_last_session()
+        elif choice == '7':
+            create_optimization_session.create_optimization_session()
+            input("Press any key to continue...")
+            selected_options["optimization_session"] = load_last_optimization_session()
         elif choice == '9':
             print("Exiting the application.")
             break

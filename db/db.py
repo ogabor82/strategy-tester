@@ -48,7 +48,32 @@ def create_tables():
         "sharpe_ratio" FLOAT,
         "kelly_criterion" FLOAT
         );
-        ''')             
+        ''')       
+
+
+        # Create the "optimization_session" table
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS "optimization_session" (
+        "id" INTEGER PRIMARY KEY,
+        "name" VARCHAR,
+        "details" VARCHAR
+        );
+        ''')
+
+        # Create the "optimization_slice" table
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS "optimization_slice" (
+        "id" INTEGER PRIMARY KEY,
+        "optimization_session_id" INTEGER,
+        "timeframe_id" INTEGER,
+        "strategy_id" INTEGER,
+        "ticker" VARCHAR,
+        "start" DATETIME,
+        "end" DATETIME,
+        "interval" VARCHAR,
+        "optimization_results" VARCHAR
+        );
+        ''')
 
         # Create the "timeframe_set" table
         cursor.execute('''
@@ -104,4 +129,10 @@ def load_last_session():
     global DB
     cursor = DB.cursor()
     cursor.execute("SELECT * FROM backtest_session ORDER BY id DESC LIMIT 1")
+    return cursor.fetchone()
+
+def load_last_optimization_session():
+    global DB
+    cursor = DB.cursor()
+    cursor.execute("SELECT * FROM optimization_session ORDER BY id DESC LIMIT 1")
     return cursor.fetchone()
