@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, make_response, request
 from flask_cors import CORS, cross_origin
 from controllers.backtest_controller import get_backtest_slices, get_backtest_sessions, get_backtest_slices_by_session_id, get_backtest_slices_by_strategy_id
-from controllers.timeframe_set_controller import get_configurations
+from controllers.optimization_controller import get_optimization_slices_by_session_id, get_optimization_sessions
+from controllers.timeframe_set_controller import get_timeframe_sets
 from controllers.strategy_controller import create_strategy, get_strategies
 
 app = Flask(__name__)
@@ -46,11 +47,24 @@ def strategy(id):
     sessions = get_backtest_slices_by_strategy_id(id)
     return jsonify([dict(session) for session in sessions])
 
-@app.route('/configurations', methods=['GET'])
+@app.route('/timeframe-sets', methods=['GET'])
 @cross_origin()
-def configurations():
-    configurations = get_configurations()
-    return jsonify(configurations)
+def timeframe_sets():
+    timeframe_sets = get_timeframe_sets()
+    return jsonify(timeframe_sets)
+
+@app.route('/optimization-sessions', methods=['GET'])
+@cross_origin()
+def optimization_sessions():
+    optimization_sessions = get_optimization_sessions()
+    return jsonify(optimization_sessions)
+
+@app.route('/optimization-sessions/<int:id>', methods=['GET'])
+@cross_origin()
+def optimization_session_slices(id):
+    optimization_slices = get_optimization_slices_by_session_id(id)
+    return jsonify(optimization_slices)
+        
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000)
