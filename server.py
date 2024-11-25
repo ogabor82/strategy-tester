@@ -5,7 +5,9 @@ from controllers.optimization_controller import get_optimization_slices_by_sessi
 from controllers.timeframe_set_controller import get_timeframe_sets
 from controllers.strategy_controller import create_strategy, get_strategies
 
-app = Flask(__name__)
+# app = Flask(__name__)
+app = Flask(__name__, static_folder='reports')
+
 cors = CORS(app) 
 
 @app.route('/backtest-results', methods=['GET'])

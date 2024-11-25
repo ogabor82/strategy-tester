@@ -73,6 +73,9 @@ def optimize(selected_options):
             "sma_slow": int(stats._strategy.sma_slow)
         }
 
+
+        filename = f"reports/optimization/optimization_results_{ticker}_{strategy_id}_{START_DATE}_{END_DATE}_{FREQUENCY}"        
+
         cursor = db.db.DB.cursor()
         cursor.execute("""
             INSERT INTO optimization_slice (
@@ -98,4 +101,4 @@ def optimize(selected_options):
 
         sns.heatmap(heatmap.unstack())
         if selected_options['backtest_plot']:            
-            plot_heatmaps(heatmap, agg='mean')
+            plot_heatmaps(heatmap, agg='mean', plot_width=1200, filename=filename)
