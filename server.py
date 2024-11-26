@@ -4,6 +4,7 @@ from controllers.backtest_controller import get_backtest_slices, get_backtest_se
 from controllers.optimization_controller import get_optimization_slices_by_session_id, get_optimization_sessions
 from controllers.timeframe_set_controller import get_timeframe_sets
 from controllers.strategy_controller import create_strategy, get_strategies
+from controllers.ticker_set_controller import get_ticker_sets
 
 # app = Flask(__name__)
 app = Flask(__name__, static_folder='reports')
@@ -66,6 +67,13 @@ def optimization_sessions():
 def optimization_session_slices(id):
     optimization_slices = get_optimization_slices_by_session_id(id)
     return jsonify(optimization_slices)
+
+@app.route('/ticker-sets', methods=['GET'])
+@cross_origin()
+def ticker_sets():
+    ticker_sets = get_ticker_sets()
+    return jsonify(ticker_sets)
+
         
 
 if __name__ == '__main__':
