@@ -18,6 +18,36 @@ def get_timeframe_sets():
     rows = cursor.fetchall()
     return [dict(row) for row in rows]
 
+def get_timeframe_sets_with_timeframes():
+    init_db()
+    cursor = DB.cursor()
+    cursor.execute("""
+                   SELECT 
+                       timeframe_set.id as timeframe_set_id, 
+                       timeframe_set.name as timeframe_set_name,
+                       timeframe.id as timeframe_id,
+                       timeframe.name as timeframe_name,
+                       timeframe.start as timeframe_start,
+                       timeframe.end as timeframe_end,
+                       timeframe.interval as timeframe_interval
+                   FROM timeframe_set LEFT JOIN timeframe ON timeframe_set.id = timeframe.timeframe_set_id
+                   """)
+    rows = cursor.fetchall()
+    timeframe_sets = {}
+    for row in rows:
+        timeframe_set_id = row['timeframe_set_id']
+        if timeframe_set_id not in timeframe_sets:
+            timeframe_sets[timeframe_set_id] = {'id': row['timeframe_set_id'], 'name': row['timeframe_set_name'], 'timeframes': []}
+        if row['timeframe_id']:
+            timeframe_sets[timeframe_set_id]['timeframes'].append({
+                'id': row['timeframe_id'],
+                'name': row['timeframe_name'],
+                'start': row['timeframe_start'],
+                'end': row['timeframe_end'],
+                'interval': row['timeframe_interval']
+            })
+    return list(timeframe_sets.values())
+
 def get_timeframes():
     init_db()
     cursor = DB.cursor()

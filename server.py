@@ -2,7 +2,7 @@ from flask import Flask, jsonify, make_response, request
 from flask_cors import CORS, cross_origin
 from controllers.backtest_controller import get_backtest_slices, get_backtest_sessions, get_backtest_slices_by_session_id, get_backtest_slices_by_strategy_id
 from controllers.optimization_controller import get_optimization_slices_by_session_id, get_optimization_sessions
-from controllers.timeframe_set_controller import get_timeframe_sets
+from controllers.timeframe_set_controller import get_timeframe_sets, get_timeframe_sets_with_timeframes
 from controllers.strategy_controller import create_strategy, get_strategies
 from controllers.ticker_set_controller import get_ticker_sets
 
@@ -54,6 +54,12 @@ def strategy(id):
 @cross_origin()
 def timeframe_sets():
     timeframe_sets = get_timeframe_sets()
+    return jsonify(timeframe_sets)
+
+@app.route('/timeframe-sets-with-timeframes', methods=['GET'])
+@cross_origin()
+def timeframe_sets_with_timeframes():
+    timeframe_sets = get_timeframe_sets_with_timeframes()
     return jsonify(timeframe_sets)
 
 @app.route('/optimization-sessions', methods=['GET'])
