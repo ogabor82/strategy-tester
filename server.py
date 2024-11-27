@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, make_response, request
 from flask_cors import CORS, cross_origin
+from backtest import run_backtest
 from controllers.backtest_controller import get_backtest_slices, get_backtest_sessions, get_backtest_slices_by_session_id, get_backtest_slices_by_strategy_id
 from controllers.optimization_controller import get_optimization_slices_by_session_id, get_optimization_sessions
 from controllers.timeframe_set_controller import get_timeframe_sets, get_timeframe_sets_with_timeframes
@@ -80,7 +81,12 @@ def ticker_sets():
     ticker_sets = get_ticker_sets()
     return jsonify(ticker_sets)
 
-        
+@app.route('/run-backtest', methods=['POST'])
+@cross_origin()
+def run_backtest_server():
+    data = request.get_json()
+    run_backtest(data)
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000)

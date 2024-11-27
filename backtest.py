@@ -1,4 +1,5 @@
 # trading_backtest/backtest.py
+import sqlite3
 from strategies.SmaCrossAdx.SmaCrossAdx import SmaCrossAdx
 from strategies.SeriousMACD.SeriousMACD import SeriousMACD
 from backtesting import Backtest
@@ -6,9 +7,20 @@ import yfinance as yf
 from controllers.timeframe_set_controller import get_timeframes_by_timeframe_set_id
 
 from utils.results_extractor import extract_data
-import db.db
+
+DB = None
+
+def init_db():
+    global DB
+    try:
+        DB = sqlite3.connect('./strategy_tester.db')
+        DB.row_factory = sqlite3.Row
+    except sqlite3.Error as e:
+        print(f"Error connecting to database: {e}")
+        return e
 
 def run_backtest(selected_options):
+    init_db()
     print("Running backtest with the following options:")
     print(f"Strategy: {selected_options['strategy']}")
     print(f"Tickers: {selected_options['tickers']}")
@@ -48,7 +60,7 @@ def run_backtest(selected_options):
             print("Sharpe Ratio", result_data["Sharpe Ratio"])       
             print("Kelly Criterion", result_data["Kelly Criterion"])
       
-            cursor = db.db.DB.cursor()
+            cursor = DB.cursor()
             cursor.execute("""
                 INSERT INTO backtest_slice (
                     backtest_session_id,
@@ -67,7 +79,7 @@ def run_backtest(selected_options):
                     kelly_criterion
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
-                selected_options["selected_session"][0],
+                selected_options["selected_session"]["id"],
                 selected_options["timeframe_set"]["name"],
                 strategy_id,
                 ticker,
@@ -83,7 +95,7 @@ def run_backtest(selected_options):
                 result_data["Kelly Criterion"]
             ))
 
-            db.db.DB.commit()
+            DB.commit()
             
             # print(result_data)
         elif selected_options["backtest_results"] == "detailed":
