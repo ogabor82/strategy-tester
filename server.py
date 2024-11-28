@@ -7,7 +7,7 @@ from controllers.timeframe_set_controller import get_timeframe_sets, get_timefra
 from controllers.strategy_controller import create_strategy, get_strategies
 from controllers.ticker_set_controller import get_ticker_sets
 from create_optimization_session import save_session as save_optimization_session
-from create_session import save_session as save_backtest_session
+from create_session import delete_backtest_session, save_session as save_backtest_session
 
 # app = Flask(__name__)
 app = Flask(__name__, static_folder='reports')
@@ -38,6 +38,12 @@ def create_backtest_session():
 def backtest_session(id):    
     sessions = get_backtest_slices_by_session_id(id)
     return jsonify([dict(session) for session in sessions])
+
+@app.route('/backtest-sessions/<int:id>', methods=['DELETE'])
+@cross_origin()
+def delete_backtest_session_server(id):
+    delete_backtest_session(id)
+    return jsonify({"message": "Backtest session deleted"})
 
 @app.route('/strategies', methods=['GET'])
 @cross_origin()

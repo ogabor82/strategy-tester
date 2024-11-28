@@ -36,3 +36,10 @@ def create_session():
     save_session(session_name, session_details)
 
     print("Backtest session created successfully.")
+
+def delete_backtest_session(id):
+    init_db()
+    cursor = DB.cursor()
+    cursor.execute("DELETE FROM backtest_session WHERE id = ?", (id,))
+    cursor.execute("DELETE FROM backtest_slice WHERE backtest_session_id = ?", (id,))
+    DB.commit()
