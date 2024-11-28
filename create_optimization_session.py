@@ -1,5 +1,4 @@
 import sqlite3
-
 DB = None
 
 def init_db():
@@ -21,6 +20,7 @@ def save_session(session_name, session_details):
     cursor = DB.cursor()
     cursor.execute("INSERT INTO optimization_session (name, details) VALUES (?, ?)", (session_name, session_details))
     DB.commit()
+    return cursor.lastrowid
 
 def create_optimization_session():
     session_name, session_details = get_user_inputs()

@@ -6,7 +6,8 @@ from controllers.optimization_controller import get_optimization_slices_by_sessi
 from controllers.timeframe_set_controller import get_timeframe_sets, get_timeframe_sets_with_timeframes
 from controllers.strategy_controller import create_strategy, get_strategies
 from controllers.ticker_set_controller import get_ticker_sets
-from create_optimization_session import save_session
+from create_optimization_session import save_session as save_optimization_session
+from create_session import save_session as save_backtest_session
 
 # app = Flask(__name__)
 app = Flask(__name__, static_folder='reports')
@@ -29,8 +30,8 @@ def backtest_sessions():
 @cross_origin()
 def create_backtest_session():
     data = request.get_json()
-    save_session(data["name"], data["details"])
-    return jsonify(data)
+    result = save_backtest_session(data["name"], data["details"])
+    return jsonify([dict(result)][0])
 
 @app.route('/backtest-sessions/<int:id>', methods=['GET'])
 @cross_origin()
