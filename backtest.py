@@ -46,7 +46,16 @@ def run_backtest(selected_options):
         df_prices.index = df_prices.index.tz_localize(None)
 
         bt = Backtest(df_prices, strategy, cash=100_000, commission=0, exclusive_orders=True)        
-        stats = bt.run()        
+        stats = bt.run()      
+
+        session_id = selected_options["selected_session"]["id"]
+        timeframe_set_name = selected_options["timeframe_set"]["name"]
+        strategy_id = strategy_id
+        start_date = START_DATE
+        end_date = END_DATE
+        frequency = FREQUENCY
+
+        filename = f"reports/backtest/backtest_results_{ticker}_{session_id}_{timeframe_set_name}_{strategy_id}_{start_date}_{end_date}_{frequency}"          
 
         if selected_options["backtest_results"] == "compact":
             result_data = extract_data(str(stats))
@@ -76,8 +85,9 @@ def run_backtest(selected_options):
                     trades,
                     win_rate,
                     sharpe_ratio,
-                    kelly_criterion
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    kelly_criterion,
+                    filename
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 selected_options["selected_session"]["id"],
                 selected_options["timeframe_set"]["name"],
@@ -92,7 +102,8 @@ def run_backtest(selected_options):
                 result_data["# Trades"],
                 result_data["Win Rate [%]"],
                 result_data["Sharpe Ratio"],
-                result_data["Kelly Criterion"]
+                result_data["Kelly Criterion"],
+                filename
             ))
 
             DB.commit()
@@ -102,7 +113,10 @@ def run_backtest(selected_options):
             print(stats)
             # print(stats._trades)           
         if selected_options["backtest_plot"]:    
-            bt.plot()
+            bt.plot(
+                filename=filename,
+                open_browser=False
+            )
 
 
     

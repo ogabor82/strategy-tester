@@ -46,7 +46,8 @@ def create_tables():
         "trades" INTEGER,
         "win_rate" FLOAT,
         "sharpe_ratio" FLOAT,
-        "kelly_criterion" FLOAT
+        "kelly_criterion" FLOAT,
+        "filename" VARCHAR
         );
         ''')       
 
