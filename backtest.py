@@ -1,5 +1,6 @@
 # trading_backtest/backtest.py
 import sqlite3
+import uuid
 from strategies.SmaCrossAdx.SmaCrossAdx import SmaCrossAdx
 from strategies.SeriousMACD.SeriousMACD import SeriousMACD
 from backtesting import Backtest
@@ -25,6 +26,8 @@ def run_backtest(selected_options):
     print(f"Strategy: {selected_options['strategy']}")
     print(f"Tickers: {selected_options['tickers']}")
     print(f"Timeframe set: {selected_options['timeframe_set']}")    
+    print(f"Backtest set: {selected_options['backtest_set']}")
+    backtest_set = {key: value for key, value in selected_options['backtest_set'].items() if key != 'name'}
 
     timeframes = get_timeframes_by_timeframe_set_id(selected_options["timeframe_set"]["id"])
 
@@ -46,16 +49,9 @@ def run_backtest(selected_options):
         df_prices.index = df_prices.index.tz_localize(None)
 
         bt = Backtest(df_prices, strategy, cash=100_000, commission=0, exclusive_orders=True)        
-        stats = bt.run()      
+        stats = bt.run(**backtest_set)      
 
-        session_id = selected_options["selected_session"]["id"]
-        timeframe_set_name = selected_options["timeframe_set"]["name"]
-        strategy_id = strategy_id
-        start_date = START_DATE
-        end_date = END_DATE
-        frequency = FREQUENCY
-
-        filename = f"reports/backtest/backtest_results_{ticker}_{session_id}_{timeframe_set_name}_{strategy_id}_{start_date}_{end_date}_{frequency}"          
+        filename = f"reports/backtest/backtest_results_{uuid.uuid4()}"          
 
         if selected_options["backtest_results"] == "compact":
             result_data = extract_data(str(stats))

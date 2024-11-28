@@ -1,8 +1,24 @@
 # Seed data
+
+import json
+
+backtest_sets_ma_cross_adx = [{
+    "name": "default",
+    "sma_fast": 20,
+    "sma_slow": 40,
+    "adx": 14
+}, {
+    "name": "slow",
+    "sma_fast": 20,
+    "sma_slow": 80,
+    "adx": 14
+}]
+
+
 strategies = [
-    (1, 'MaCross', 'Sample MaCross strategy with ADX'),
-    (2, 'SeriousMACD', 'SeriousMACD strategy from Serius Backtester youtube channel'),
-    (3, 'RSI', 'RSI strategy from Serius Backtester youtube channel')
+    (1, 'MaCross', 'Sample MaCross strategy with ADX', json.dumps(backtest_sets_ma_cross_adx)),
+    (2, 'SeriousMACD', 'SeriousMACD strategy from Serius Backtester youtube channel', json.dumps(backtest_sets_ma_cross_adx)),
+    (3, 'RSI', 'RSI strategy from Serius Backtester youtube channel', json.dumps(backtest_sets_ma_cross_adx))
 ]
 
 timeframe_sets = [

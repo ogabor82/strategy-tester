@@ -112,13 +112,14 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS "strategy" (
         "id" INTEGER PRIMARY KEY,
         "name" VARCHAR,
-        "description" VARCHAR
+        "description" VARCHAR,
+        "backtest_sets" VARCHAR
         );
         ''')     
 
         # Insert seed data into the strategy table
         cursor.executemany('''
-        INSERT INTO strategy (id, name, description) VALUES (?, ?, ?)
+        INSERT INTO strategy (id, name, description, backtest_sets) VALUES (?, ?, ?, ?)
         ''', strategies)   
 
         DB.commit()
