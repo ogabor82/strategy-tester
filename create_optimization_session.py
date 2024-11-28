@@ -1,4 +1,15 @@
-import db.db
+import sqlite3
+
+DB = None
+
+def init_db():
+    global DB
+    try:
+        DB = sqlite3.connect('./strategy_tester.db')
+        DB.row_factory = sqlite3.Row
+    except sqlite3.Error as e:
+        print(f"Error connecting to database: {e}")
+        return e
 
 def get_user_inputs():
     session_name = input("Enter the optimization session name: ")
@@ -6,9 +17,10 @@ def get_user_inputs():
     return session_name, session_details
 
 def save_session(session_name, session_details):
-    cursor = db.db.DB.cursor()
+    init_db()
+    cursor = DB.cursor()
     cursor.execute("INSERT INTO optimization_session (name, details) VALUES (?, ?)", (session_name, session_details))
-    db.db.DB.commit()
+    DB.commit()
 
 def create_optimization_session():
     session_name, session_details = get_user_inputs()
