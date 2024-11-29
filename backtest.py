@@ -1,4 +1,5 @@
 # trading_backtest/backtest.py
+import json
 import sqlite3
 import uuid
 from strategies.SmaCrossAdx.SmaCrossAdx import SmaCrossAdx
@@ -71,6 +72,7 @@ def run_backtest(selected_options):
                     backtest_session_id,
                     configuration_id,
                     strategy_id,
+                    strategy_parameters,
                     ticker,
                     start,
                     end,
@@ -83,11 +85,12 @@ def run_backtest(selected_options):
                     sharpe_ratio,
                     kelly_criterion,
                     filename
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
             """, (
                 selected_options["selected_session"]["id"],
                 selected_options["timeframe_set"]["name"],
                 strategy_id,
+                json.dumps(backtest_set),
                 ticker,
                 START_DATE,
                 END_DATE,

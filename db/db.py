@@ -36,6 +36,7 @@ def create_tables():
         "backtest_session_id" INTEGER,
         "configuration_id" INTEGER,
         "strategy_id" INTEGER,
+        "strategy_parameters" VARCHAR,                       
         "ticker" VARCHAR,
         "start" DATETIME,
         "end" DATETIME,
@@ -113,13 +114,14 @@ def create_tables():
         "id" INTEGER PRIMARY KEY,
         "name" VARCHAR,
         "description" VARCHAR,
-        "backtest_sets" VARCHAR
+        "backtest_sets" VARCHAR,
+        "optimization_sets" VARCHAR
         );
         ''')     
 
         # Insert seed data into the strategy table
         cursor.executemany('''
-        INSERT INTO strategy (id, name, description, backtest_sets) VALUES (?, ?, ?, ?)
+        INSERT INTO strategy (id, name, description, backtest_sets, optimization_sets) VALUES (?, ?, ?, ?, ?)
         ''', strategies)   
 
         DB.commit()
