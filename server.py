@@ -8,6 +8,7 @@ from controllers.strategy_controller import create_strategy, get_strategies
 from controllers.ticker_set_controller import get_ticker_sets
 from create_optimization_session import save_optimization_session
 from create_session import delete_backtest_session, save_session as save_backtest_session
+from optimization import run_optimization
 
 # app = Flask(__name__)
 app = Flask(__name__, static_folder='reports')
@@ -110,6 +111,13 @@ def ticker_sets():
 def run_backtest_server():
     data = request.get_json()
     run_backtest(data)
+    return jsonify(data)
+
+@app.route('/run-optimization', methods=['POST'])
+@cross_origin()
+def run_optimization_server():
+    data = request.get_json()
+    run_optimization(data)
     return jsonify(data)
 
 if __name__ == '__main__':
