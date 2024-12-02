@@ -30,9 +30,12 @@ def run_optimization(selected_options):
 
     # New code to iterate through optimization_set["variables"]
     modified_optimization_set = {}
+    param_keys = []
     for key, value in optimization_set.get("variables", {}).items():
         # Modify the value as needed
         modified_optimization_set[key] = range(value["from"], value["to"], value["step"])
+        param_keys.append(key)
+
 
     modified_optimization_set["maximize"] = optimization_set["config"]["maximize"]
     modified_optimization_set["method"] = optimization_set["config"]["method"]
@@ -68,14 +71,8 @@ def run_optimization(selected_options):
 
         stats, heatmap = bt.optimize(**modified_optimization_set)
         
-        print("Optimization results:")
-        print("Optimal sma_fast:", stats._strategy.sma_fast)
-        print("Optimal sma_slow:", stats._strategy.sma_slow)
-        print("-----------------------------")
-
         optimization_results = {
-            "sma_fast": int(stats._strategy.sma_fast),
-            "sma_slow": int(stats._strategy.sma_slow)
+            key: int(value) for key, value in stats._strategy.__dict__.items() if key in param_keys
         }
 
 
