@@ -32,10 +32,7 @@ def run_backtest(selected_options):
     backtest_set = {key: value for key, value in selected_options['backtest_set'].items() if key != 'name'}
 
     timeframes = get_timeframes_by_timeframe_set_id(selected_options["timeframe_set"]["id"])
-
-    START_DATE = timeframes[0]["start"]
-    END_DATE = timeframes[0]["end"]
-    FREQUENCY = timeframes[0]["interval"]
+    print(timeframes)
 
     if selected_options["strategy"]["name"] == "MaCross":
         strategy = SmaCrossAdx
@@ -47,79 +44,84 @@ def run_backtest(selected_options):
         strategy = SuperTrend
         strategy_id = 3
 
+    for timeframe in timeframes:
+        START_DATE = timeframe["start"]
+        END_DATE = timeframe["end"]
+        FREQUENCY = timeframe["interval"]
 
-    for ticker in selected_options["tickers"]:
-        print(f"Running backtest for ticker: {ticker}")
-        df_prices = yf.Ticker(ticker).history(start=START_DATE, end=END_DATE, interval=FREQUENCY)
-        df_prices.index = df_prices.index.tz_localize(None)
+        for ticker in selected_options["tickers"]:
+            print(f"Running backtest for ticker: {ticker}")
+            df_prices = yf.Ticker(ticker).history(start=START_DATE, end=END_DATE, interval=FREQUENCY)
+            df_prices.index = df_prices.index.tz_localize(None)
 
-        bt = Backtest(df_prices, strategy, cash=100_000, commission=0, exclusive_orders=True)        
-        stats = bt.run(**backtest_set)      
+            bt = Backtest(df_prices, strategy, cash=100_000, commission=0, exclusive_orders=True)        
+            stats = bt.run(**backtest_set)      
 
-        filename = f"reports/backtest/backtest_results_{uuid.uuid4()}"          
+            filename = f"reports/backtest/backtest_results_{uuid.uuid4()}"          
 
-        if selected_options["backtest_results"] == "compact":
-            result_data = extract_data(str(stats))
-            print("-----------------------------")
-            print("Ticker: ", ticker)
-            print("Return [%]", result_data["Return [%]"])
-            print("Buy & Hold Return [%]", result_data["Buy & Hold Return [%]"])
-            print("Max. Drawdown [%]", result_data["Max. Drawdown [%]"])
-            print("# Trades", result_data["# Trades"])
-            print("Win Rate [%]", result_data["Win Rate [%]"])
-            print("Sharpe Ratio", result_data["Sharpe Ratio"])       
-            print("Kelly Criterion", result_data["Kelly Criterion"])
-      
-            cursor = DB.cursor()
-            cursor.execute("""
-                INSERT INTO backtest_slice (
-                    backtest_session_id,
-                    configuration_id,
+            if selected_options["backtest_results"] == "compact":
+                print(stats)
+                result_data = extract_data(str(stats))
+                print("-----------------------------")
+                print("Ticker: ", ticker)
+                print("Return [%]", result_data["Return [%]"])
+                print("Buy & Hold Return [%]", result_data["Buy & Hold Return [%]"])
+                print("Max. Drawdown [%]", result_data["Max. Drawdown [%]"])
+                print("# Trades", result_data["# Trades"])
+                print("Win Rate [%]", result_data["Win Rate [%]"])
+                print("Sharpe Ratio", result_data["Sharpe Ratio"])       
+                print("Kelly Criterion", result_data["Kelly Criterion"])
+        
+                cursor = DB.cursor()
+                cursor.execute("""
+                    INSERT INTO backtest_slice (
+                        backtest_session_id,
+                        configuration_id,
+                        strategy_id,
+                        strategy_parameters,
+                        ticker,
+                        start,
+                        end,
+                        interval,
+                        return,
+                        buyhold_return,
+                        max_drawdown,
+                        trades,
+                        win_rate,
+                        sharpe_ratio,
+                        kelly_criterion,
+                        filename
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
+                """, (
+                    selected_options["selected_session"]["id"],
+                    selected_options["timeframe_set"]["name"],
                     strategy_id,
-                    strategy_parameters,
+                    json.dumps(backtest_set),
                     ticker,
-                    start,
-                    end,
-                    interval,
-                    return,
-                    buyhold_return,
-                    max_drawdown,
-                    trades,
-                    win_rate,
-                    sharpe_ratio,
-                    kelly_criterion,
+                    START_DATE,
+                    END_DATE,
+                    FREQUENCY,
+                    result_data["Return [%]"],
+                    result_data["Buy & Hold Return [%]"],
+                    result_data["Max. Drawdown [%]"],
+                    result_data["# Trades"],
+                    result_data["Win Rate [%]"],
+                    result_data["Sharpe Ratio"],
+                    result_data["Kelly Criterion"],
                     filename
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )
-            """, (
-                selected_options["selected_session"]["id"],
-                selected_options["timeframe_set"]["name"],
-                strategy_id,
-                json.dumps(backtest_set),
-                ticker,
-                START_DATE,
-                END_DATE,
-                FREQUENCY,
-                result_data["Return [%]"],
-                result_data["Buy & Hold Return [%]"],
-                result_data["Max. Drawdown [%]"],
-                result_data["# Trades"],
-                result_data["Win Rate [%]"],
-                result_data["Sharpe Ratio"],
-                result_data["Kelly Criterion"],
-                filename
-            ))
+                ))
 
-            DB.commit()
-            
-            # print(result_data)
-        elif selected_options["backtest_results"] == "detailed":
-            print(stats)
-            # print(stats._trades)           
-        if selected_options["backtest_plot"]:    
-            bt.plot(
-                filename=filename,
-                open_browser=False
-            )
+                DB.commit()
+                
+                # print(result_data)
+            elif selected_options["backtest_results"] == "detailed":
+                print(stats)
+                # print(stats._trades)           
+            if selected_options["backtest_plot"]:    
+                bt.plot(
+                    filename=filename,
+                    open_browser=False
+                )
 
 
     
