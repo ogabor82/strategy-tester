@@ -7,7 +7,9 @@ class SuperTrend(Strategy):
     # Strategy parameters
     atr_period = 10
     atr_multiplier = 3
-    
+    min_adx = 14
+    ema_window = 200
+
     def init(self):
         # Calculate SuperTrend
         high = pd.Series(self.data.High)
@@ -45,13 +47,25 @@ class SuperTrend(Strategy):
             else:
                 supertrend[i] = final_upperband[i]
         
+        # Calculate 200 EMA
+        ema_filter  = ta.trend.ema_indicator(close, window = self.ema_window)
+        
+        # Add ADX calculation
+        adx = ta.trend.ADXIndicator(high, low, close, window=14)
+        adx_value = adx.adx()
+        
         # Store indicators for strategy use
         self.supertrend = self.I(lambda: supertrend)
         self.direction = self.I(lambda: direction)
+        self.ema_filter = self.I(lambda: ema_filter)
+        self.adx = self.I(lambda: adx_value)  # Add ADX to stored indicators
         
     def next(self):
-        # If not in position and trend turns upward, buy
-        if not self.position and self.direction[-1] == 1:
+        # If not in position and trend turns upward and price is above 200 EMA and ADX > 20, buy
+        if (not self.position and 
+            self.direction[-1] == 1 and 
+            self.data.Close[-1] > self.ema_filter[-1] and
+            self.adx[-1] > self.min_adx):  # Add ADX filter
             self.buy()
             
         # If in position and trend turns downward, sell

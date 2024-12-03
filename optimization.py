@@ -3,6 +3,7 @@ import sqlite3
 from controllers.timeframe_set_controller import get_timeframes_by_timeframe_set_id
 from strategies.SeriousMACD.SeriousMACD import SeriousMACD
 from strategies.SmaCrossAdx.SmaCrossAdx import SmaCrossAdx
+from strategies.SuperTrend.SuperTrend import SuperTrend
 from backtesting import Backtest
 import yfinance as yf
 
@@ -58,6 +59,9 @@ def run_optimization(selected_options):
     elif selected_options["strategy"]["name"] == "SeriousMACD":
         strategy = SeriousMACD
         strategy_id = 2    
+    elif selected_options["strategy"]["name"] == "SuperTrend":
+        strategy = SuperTrend
+        strategy_id = 3
 
     print("Selected options:")
     print(selected_options)     
