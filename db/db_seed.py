@@ -3,11 +3,12 @@ import json
 
 from strategies.SeriousMACD.SeriousMACD_db import backtest_sets_serious_macd, optimization_sets_serious_macd
 from strategies.SmaCrossAdx.SmaCrossAdx_db import backtest_sets_ma_cross_adx, optimization_sets_ma_cross_adx
+from strategies.SuperTrend.SuperTrend_db import backtest_sets_super_trend, optimization_sets_super_trend
 
 strategies = [
     (1, 'MaCross', 'Sample MaCross strategy with ADX', json.dumps(backtest_sets_ma_cross_adx), json.dumps(optimization_sets_ma_cross_adx)),
     (2, 'SeriousMACD', 'SeriousMACD strategy from Serius Backtester youtube channel', json.dumps(backtest_sets_serious_macd), json.dumps(optimization_sets_serious_macd)),
-    (3, 'RSI', 'RSI strategy from Serius Backtester youtube channel', json.dumps(backtest_sets_ma_cross_adx), json.dumps(optimization_sets_ma_cross_adx))
+    (3, 'SuperTrend', 'SuperTrend strategy', json.dumps(backtest_sets_super_trend), json.dumps(optimization_sets_super_trend)),
 ]
 
 timeframe_sets = [

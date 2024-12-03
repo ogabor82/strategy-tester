@@ -4,6 +4,7 @@ import sqlite3
 import uuid
 from strategies.SmaCrossAdx.SmaCrossAdx import SmaCrossAdx
 from strategies.SeriousMACD.SeriousMACD import SeriousMACD
+from strategies.SuperTrend.SuperTrend import SuperTrend
 from backtesting import Backtest
 import yfinance as yf
 from controllers.timeframe_set_controller import get_timeframes_by_timeframe_set_id
@@ -42,6 +43,9 @@ def run_backtest(selected_options):
     elif selected_options["strategy"]["name"] == "SeriousMACD":
         strategy = SeriousMACD
         strategy_id = 2
+    elif selected_options["strategy"]["name"] == "SuperTrend":
+        strategy = SuperTrend
+        strategy_id = 3
 
 
     for ticker in selected_options["tickers"]:
