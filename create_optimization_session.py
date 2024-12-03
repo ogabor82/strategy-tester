@@ -34,3 +34,10 @@ def create_optimization_session():
     save_optimization_session(session_name, session_details)
 
     print("Optimization session created successfully.")
+
+def delete_optimization_session(id):
+    init_db()
+    cursor = DB.cursor()
+    cursor.execute("DELETE FROM optimization_session WHERE id = ?", (id,))
+    cursor.execute("DELETE FROM optimization_slice WHERE optimization_session_id = ?", (id,))
+    DB.commit()

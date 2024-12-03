@@ -6,7 +6,7 @@ from controllers.optimization_controller import get_optimization_slices_by_sessi
 from controllers.timeframe_set_controller import get_timeframe_sets, get_timeframe_sets_with_timeframes
 from controllers.strategy_controller import create_strategy, get_strategies
 from controllers.ticker_set_controller import get_ticker_sets
-from create_optimization_session import save_optimization_session
+from create_optimization_session import delete_optimization_session, save_optimization_session
 from create_session import delete_backtest_session, save_session as save_backtest_session
 from optimization import run_optimization
 
@@ -99,6 +99,12 @@ def create_optimization_session():
 def optimization_session_slices(id):
     optimization_slices = get_optimization_slices_by_session_id(id)
     return jsonify(optimization_slices)
+
+@app.route('/optimization-sessions/<int:id>', methods=['DELETE'])
+@cross_origin()
+def delete_optimization_session_server(id):
+    delete_optimization_session(id)
+    return jsonify({"message": "Optimization session deleted"})
 
 @app.route('/ticker-sets', methods=['GET'])
 @cross_origin()
