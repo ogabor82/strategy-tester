@@ -1,7 +1,7 @@
 # Seed data
 import json
 
-from strategies.SeriousMACD.SeriousMACD_db import backtest_sets_serious_macd
+from strategies.SeriousMACD.SeriousMACD_db import backtest_sets_serious_macd, optimization_sets_serious_macd
 
 backtest_sets_ma_cross_adx = [{
     "name": "default",
@@ -62,7 +62,7 @@ optimization_sets_ma_cross_adx = [{
 
 strategies = [
     (1, 'MaCross', 'Sample MaCross strategy with ADX', json.dumps(backtest_sets_ma_cross_adx), json.dumps(optimization_sets_ma_cross_adx)),
-    (2, 'SeriousMACD', 'SeriousMACD strategy from Serius Backtester youtube channel', json.dumps(backtest_sets_serious_macd), json.dumps(optimization_sets_ma_cross_adx)),
+    (2, 'SeriousMACD', 'SeriousMACD strategy from Serius Backtester youtube channel', json.dumps(backtest_sets_serious_macd), json.dumps(optimization_sets_serious_macd)),
     (3, 'RSI', 'RSI strategy from Serius Backtester youtube channel', json.dumps(backtest_sets_ma_cross_adx), json.dumps(optimization_sets_ma_cross_adx))
 ]
 

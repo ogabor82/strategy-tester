@@ -9,6 +9,8 @@ import yfinance as yf
 import seaborn as sns
 from backtesting.lib import plot_heatmaps
 
+from utils.data_conversion import convert_to_namedtuple
+
 DB = None
 
 def init_db():
@@ -72,9 +74,28 @@ def run_optimization(selected_options):
         stats, heatmap = bt.optimize(**modified_optimization_set)
         
         optimization_results = {
-            key: int(value) for key, value in stats._strategy.__dict__.items() if key in param_keys
+            'best_params': {key: getattr(stats._strategy, key) for key in param_keys},
+            'metrics': {
+                'Return [%]': stats['Return [%]'],
+                'Sharpe Ratio': stats['Sharpe Ratio'],
+                'Max. Drawdown [%]': stats['Max. Drawdown [%]'],
+                'Win Rate [%]': stats['Win Rate [%]']
+            },
         }
 
+        opt_params = json.dumps(stats._strategy, default=str)
+        opt_params_dict = json.loads(opt_params)
+        opt_params_namedtuple = convert_to_namedtuple(opt_params_dict)
+
+        optimization_results = {
+            'best_params': {key: getattr(opt_params_namedtuple, key) for key in param_keys},
+            'metrics': {
+                'Return [%]': stats['Return [%]'],
+                'Sharpe Ratio': stats['Sharpe Ratio'],
+                'Max. Drawdown [%]': stats['Max. Drawdown [%]'],
+                'Win Rate [%]': stats['Win Rate [%]']
+            },
+        }
 
         filename = f"reports/optimization/optimization_results_{ticker}_{strategy_id}_{START_DATE}_{END_DATE}_{FREQUENCY}"        
 

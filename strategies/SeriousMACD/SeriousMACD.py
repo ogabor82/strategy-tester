@@ -24,8 +24,6 @@ class SeriousMACD(Strategy):
 
         self.ema = self.I(ta.trend.ema_indicator , pd.Series(self.data.Close), self.ema)
 
-        self.stop_loss = 0.05
-
     def next(self):
         c1 = crossover(self.macd, self.signal)
         c1b = self.macd < 0 and self.signal < 0
