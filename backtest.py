@@ -6,9 +6,8 @@ from strategies.SmaCrossAdx.SmaCrossAdx import SmaCrossAdx
 from strategies.SeriousMACD.SeriousMACD import SeriousMACD
 from strategies.SuperTrend.SuperTrend import SuperTrend
 from backtesting import Backtest
-import yfinance as yf
 from controllers.timeframe_set_controller import get_timeframes_by_timeframe_set_id
-
+from utils.price_fetcher import get_price_data
 from utils.results_extractor import extract_data
 
 DB = None
@@ -51,8 +50,8 @@ def run_backtest(selected_options):
 
         for ticker in selected_options["tickers"]:
             print(f"Running backtest for ticker: {ticker}")
-            df_prices = yf.Ticker(ticker).history(start=START_DATE, end=END_DATE, interval=FREQUENCY)
-            df_prices.index = df_prices.index.tz_localize(None)
+            
+            df_prices = get_price_data(ticker, START_DATE, END_DATE, FREQUENCY)
 
             bt = Backtest(df_prices, strategy, cash=100_000, commission=0, exclusive_orders=True)        
             stats = bt.run(**backtest_set)      
