@@ -17,6 +17,10 @@ from strategies.RSISimple.RSISimple_db import (
     backtest_sets_rsi_simple,
     optimization_sets_rsi_simple,
 )
+from strategies.EmaCrossAdx.EmaCrossAdx_db import (
+    backtest_sets_ema_cross_adx,
+    optimization_sets_ema_cross_adx,
+)
 
 strategies = [
     (
@@ -46,6 +50,13 @@ strategies = [
         "RSISimple strategy",
         json.dumps(backtest_sets_rsi_simple),
         json.dumps(optimization_sets_rsi_simple),
+    ),
+    (
+        5,
+        "EmaCrossAdx",
+        "EmaCrossAdx strategy",
+        json.dumps(backtest_sets_ema_cross_adx),
+        json.dumps(optimization_sets_ema_cross_adx),
     ),
 ]
 

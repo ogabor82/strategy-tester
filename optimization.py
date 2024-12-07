@@ -1,6 +1,7 @@
 import json
 import sqlite3
 from controllers.timeframe_set_controller import get_timeframes_by_timeframe_set_id
+from strategies.EmaCrossAdx.EmaCrossAdx import EmaCrossAdx
 from strategies.RSISimple.RSISimple import RSISimple
 from strategies.SeriousMACD.SeriousMACD import SeriousMACD
 from strategies.SmaCrossAdx.SmaCrossAdx import SmaCrossAdx
@@ -78,6 +79,9 @@ def run_optimization(selected_options):
     elif selected_options["strategy"]["name"] == "RSISimple":
         strategy = RSISimple
         strategy_id = 4
+    elif selected_options["strategy"]["name"] == "EmaCrossAdx":
+        strategy = EmaCrossAdx
+        strategy_id = 5
 
     print("Selected options:")
     print(selected_options)

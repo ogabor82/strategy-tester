@@ -2,6 +2,7 @@
 import json
 import sqlite3
 import uuid
+from strategies.EmaCrossAdx.EmaCrossAdx import EmaCrossAdx
 from strategies.SmaCrossAdx.SmaCrossAdx import SmaCrossAdx
 from strategies.SeriousMACD.SeriousMACD import SeriousMACD
 from strategies.SuperTrend.SuperTrend import SuperTrend
@@ -54,6 +55,9 @@ def run_backtest(selected_options):
     elif selected_options["strategy"]["name"] == "RSISimple":
         strategy = RSISimple
         strategy_id = 4
+    elif selected_options["strategy"]["name"] == "EmaCrossAdx":
+        strategy = EmaCrossAdx
+        strategy_id = 5
 
     for timeframe in timeframes:
         START_DATE = timeframe["start"]
