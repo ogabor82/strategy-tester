@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from backtest import run_backtest
 from controllers.backtest_controller import (
+    get_backtest_sessions_by_project_id,
     get_backtest_slices,
     get_backtest_sessions,
     get_backtest_slices_by_session_id,
@@ -60,6 +61,13 @@ def create_backtest_session():
 @cross_origin()
 def backtest_session(id):
     sessions = get_backtest_slices_by_session_id(id)
+    return jsonify([dict(session) for session in sessions])
+
+
+@app.route("/projects/<int:project_id>/backtest-sessions", methods=["GET"])
+@cross_origin()
+def get_backtest_session_by_project_id(project_id):
+    sessions = get_backtest_sessions_by_project_id(project_id)
     return jsonify([dict(session) for session in sessions])
 
 
