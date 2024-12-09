@@ -9,6 +9,7 @@ from controllers.backtest_controller import (
     get_backtest_slices_by_strategy_id,
 )
 from controllers.optimization_controller import (
+    get_optimization_sessions_by_project_id,
     get_optimization_slices_by_session_id,
     get_optimization_sessions,
 )
@@ -120,6 +121,13 @@ def timeframe_sets_with_timeframes():
 @cross_origin()
 def optimization_sessions():
     optimization_sessions = get_optimization_sessions()
+    return jsonify(optimization_sessions)
+
+
+@app.route("/projects/<int:project_id>/optimization-sessions", methods=["GET"])
+@cross_origin()
+def get_optimization_sessions_by_project_id_server(project_id):
+    optimization_sessions = get_optimization_sessions_by_project_id(project_id)
     return jsonify(optimization_sessions)
 
 
