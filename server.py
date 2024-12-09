@@ -53,7 +53,7 @@ def backtest_sessions():
 @cross_origin()
 def create_backtest_session():
     data = request.get_json()
-    result = save_backtest_session(data["name"], data["details"])
+    result = save_backtest_session(data["name"], data["details"], data["project_id"])
     return jsonify([dict(result)][0])
 
 
