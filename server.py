@@ -137,7 +137,8 @@ def create_optimization_session():
     data = request.get_json()
     name = data.get("name")
     details = data.get("details")
-    result = save_optimization_session(name, details)
+    project_id = data.get("project_id")
+    result = save_optimization_session(name, details, project_id)
     return jsonify([dict(result)][0])
 
 
