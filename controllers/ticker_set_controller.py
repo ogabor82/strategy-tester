@@ -7,6 +7,10 @@ def get_ticker_sets():
             "tickers": ["BTCUSDT", "ETHUSDT", "LTCUSDT", "SOLUSDT", "AVAXUSDT"],
         },
         {
+            "name": "Crypto blue chips",
+            "tickers": ["BTCUSDT", "ETHUSDT", "SOLUSDT", "AVAXUSDT"],
+        },
+        {
             "name": "Crypto top 25",
             "tickers": [
                 "BTCUSDT",

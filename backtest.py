@@ -38,9 +38,7 @@ def run_backtest(selected_options):
         if key != "name"
     }
 
-    timeframes = get_timeframes_by_timeframe_set_id(
-        selected_options["timeframe_set"]["id"]
-    )
+    timeframes = selected_options["timeframe_set"]["timeframes"]
     print(timeframes)
 
     if selected_options["strategy"]["name"] == "MaCross":
