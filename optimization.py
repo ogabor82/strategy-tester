@@ -59,9 +59,7 @@ def run_optimization(selected_options):
         "return_heatmap"
     ]
 
-    timeframes = get_timeframes_by_timeframe_set_id(
-        selected_options["timeframe_set"]["id"]
-    )
+    timeframes = selected_options["timeframe_set"]["timeframes"]
 
     START_DATE = timeframes[0]["start"]
     END_DATE = timeframes[0]["end"]

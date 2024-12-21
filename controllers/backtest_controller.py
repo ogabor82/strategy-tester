@@ -22,6 +22,28 @@ def get_backtest_slices():
     return result
 
 
+def get_backtest_session_stats(backtest_id: int):
+    init_db()
+    cursor = DB.cursor()
+    cursor.execute(
+        """
+        SELECT 
+            ticker,
+            strategy.name as strategy_name,
+            ROUND(AVG(return), 2) as avg_return,
+            ROUND(AVG(buyhold_return), 2) as avg_buyhold_return,
+            COUNT(*) as trade_count
+        FROM backtest_slice
+        LEFT JOIN strategy ON backtest_slice.strategy_id = strategy.id
+        WHERE backtest_session_id = ?
+        GROUP BY ticker, strategy_id
+    """,
+        (backtest_id,),
+    )
+    rows = cursor.fetchall()
+    return [dict(row) for row in rows]
+
+
 def get_backtest_slices_by_session_id(backtest_id: int):
     init_db()
     cursor = DB.cursor()

@@ -76,6 +76,7 @@ def run_backtest(selected_options):
 
             if selected_options["backtest_results"] == "compact":
                 print(stats)
+                print(stats._trades)
                 result_data = extract_data(str(stats))
                 print("-----------------------------")
                 print("Ticker: ", ticker)
