@@ -2,6 +2,7 @@ def get_ticker_sets():
     ticker_sets = [
         {"name": "Tech Giants", "tickers": ["AAPL", "GOOGL", "MSFT", "AMZN"]},
         {"name": "FAANG", "tickers": ["META", "AAPL", "AMZN", "NFLX", "GOOGL"]},
+        {"name": "Tech Xtreme", "tickers": ["TSLA", "NVDA", "AMD", "ASML"]},
         {
             "name": "Cryptocurrencies",
             "tickers": ["BTCUSDT", "ETHUSDT", "LTCUSDT", "SOLUSDT", "AVAXUSDT"],
@@ -9,6 +10,26 @@ def get_ticker_sets():
         {
             "name": "Crypto blue chips",
             "tickers": ["BTCUSDT", "ETHUSDT", "SOLUSDT", "AVAXUSDT"],
+        },
+        {
+            "name": "Crypto blue chips USDC",
+            "tickers": ["BTCUSDC", "ETHUSDC", "SOLUSDC", "AVAXUSDC"],
+        },
+        {
+            "name": "Crypto exotics",
+            "tickers": ["DOGEUSDT", "XRPUSDT", "SHIBUSDT", "ADAUSDT", "BNBUSDT"],
+        },
+        {
+            "name": "Crypto very exotic",
+            "tickers": [
+                "GALAUSDT",
+                "NEARUSDT",
+                "SUIUSDT",
+                "AAVEUSDT",
+                "PENDLEUSDT",
+                "FETUSDT",
+                "BICOUSDT",
+            ],
         },
         {
             "name": "Crypto top 25",
