@@ -7,6 +7,8 @@ from strategies.SmaCrossAdx.SmaCrossAdx import SmaCrossAdx
 from strategies.SeriousMACD.SeriousMACD import SeriousMACD
 from strategies.SuperTrend.SuperTrend import SuperTrend
 from strategies.RSISimple.RSISimple import RSISimple
+from strategies.HullmaCrossAdx.HullmaCrossAdx import HullmaCrossAdx
+from strategies.GoldDigger.GoldDigger import GoldDigger
 from backtesting import Backtest
 from controllers.timeframe_set_controller import get_timeframes_by_timeframe_set_id
 from utils.price_fetcher import get_price_data
@@ -56,6 +58,12 @@ def run_backtest(selected_options):
     elif selected_options["strategy"]["name"] == "EmaCrossAdx":
         strategy = EmaCrossAdx
         strategy_id = 5
+    elif selected_options["strategy"]["name"] == "HullMaCrossAdx":
+        strategy = HullmaCrossAdx
+        strategy_id = 6
+    elif selected_options["strategy"]["name"] == "GoldDigger":
+        strategy = GoldDigger
+        strategy_id = 7
 
     for timeframe in timeframes:
         START_DATE = timeframe["start"]

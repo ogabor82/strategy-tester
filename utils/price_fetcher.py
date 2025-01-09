@@ -9,6 +9,7 @@ def fetch_binance_prices(ticker, start_date, end_date, frequency):
         "1d": Client.KLINE_INTERVAL_1DAY,
         "4h": Client.KLINE_INTERVAL_4HOUR,
         "1h": Client.KLINE_INTERVAL_1HOUR,
+        "30m": Client.KLINE_INTERVAL_30MINUTE,
         "15m": Client.KLINE_INTERVAL_15MINUTE,
         "5m": Client.KLINE_INTERVAL_5MINUTE,
         "1m": Client.KLINE_INTERVAL_1MINUTE,
@@ -63,7 +64,7 @@ def fetch_yahoo_prices(ticker, start_date, end_date, frequency):
 
 def get_price_data(ticker, start_date, end_date, frequency):
     # Check if the ticker ends with "USDT"
-    if ticker.endswith("USDT"):
+    if ticker.endswith("USDT") or ticker.endswith("USDC"):
         return fetch_binance_prices(ticker, start_date, end_date, frequency)
     else:
         return fetch_yahoo_prices(ticker, start_date, end_date, frequency)

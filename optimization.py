@@ -1,11 +1,15 @@
 import json
 import sqlite3
-from controllers.timeframe_set_controller import get_timeframes_by_timeframe_set_id
+import matplotlib
+import matplotlib.pyplot as plt
+
+matplotlib.use("Agg")  # Set backend to non-interactive
 from strategies.EmaCrossAdx.EmaCrossAdx import EmaCrossAdx
 from strategies.RSISimple.RSISimple import RSISimple
 from strategies.SeriousMACD.SeriousMACD import SeriousMACD
 from strategies.SmaCrossAdx.SmaCrossAdx import SmaCrossAdx
 from strategies.SuperTrend.SuperTrend import SuperTrend
+from strategies.HullmaCrossAdx.HullmaCrossAdx import HullmaCrossAdx
 from backtesting import Backtest
 
 import seaborn as sns
@@ -80,6 +84,9 @@ def run_optimization(selected_options):
     elif selected_options["strategy"]["name"] == "EmaCrossAdx":
         strategy = EmaCrossAdx
         strategy_id = 5
+    elif selected_options["strategy"]["name"] == "HullmaCrossAdx":
+        strategy = HullmaCrossAdx
+        strategy_id = 6
 
     print("Selected options:")
     print(selected_options)
@@ -150,6 +157,18 @@ def run_optimization(selected_options):
 
         DB.commit()
 
-        sns.heatmap(heatmap.unstack())
+        # Move plotting to a separate function and handle it safely
         if selected_options["backtest_plot"]:
-            plot_heatmaps(heatmap, agg="mean", plot_width=1200, filename=filename)
+            try:
+                # Create figure for seaborn plot
+                plt.figure()
+                sns.heatmap(heatmap.unstack())
+                plt.savefig(f"{filename}_heatmap.png")
+                plt.close()
+
+                # Use backtesting's plot_heatmaps
+                plot_heatmaps(heatmap, agg="mean", plot_width=1200, filename=filename)
+            except Exception as e:
+                print(f"Error generating plots: {e}")
+            finally:
+                plt.close("all")  # Ensure all figures are closed

@@ -21,6 +21,10 @@ from strategies.EmaCrossAdx.EmaCrossAdx_db import (
     backtest_sets_ema_cross_adx,
     optimization_sets_ema_cross_adx,
 )
+from strategies.HullmaCrossAdx.HullmaCrossAdx_db import (
+    backtest_sets_hma_cross_adx,
+    optimization_sets_hma_cross_adx,
+)
 
 strategies = [
     (
@@ -57,6 +61,13 @@ strategies = [
         "EmaCrossAdx strategy",
         json.dumps(backtest_sets_ema_cross_adx),
         json.dumps(optimization_sets_ema_cross_adx),
+    ),
+    (
+        6,
+        "HullmaCrossAdx",
+        "HullmaCrossAdx strategy",
+        json.dumps(backtest_sets_hma_cross_adx),
+        json.dumps(optimization_sets_hma_cross_adx),
     ),
 ]
 
