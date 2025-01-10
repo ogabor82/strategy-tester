@@ -5,9 +5,10 @@ from controllers.strategy_controller import choose_strategy
 import backtest
 from controllers.timeframe_set_controller import get_timeframe_sets
 from controllers.strategy_controller import get_strategies
-import create_optimization_session
+from controllers.optimization_controller import create_optimization_session
 import optimization
-import create_session
+from create_session import create_session
+
 from db.db import init_db, load_last_optimization_session, load_last_session
 
 # Dictionary to store selected options

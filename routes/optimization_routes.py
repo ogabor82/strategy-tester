@@ -5,7 +5,7 @@ from controllers.optimization_controller import (
     get_optimization_slices_by_session_id,
     get_optimization_sessions,
 )
-from create_optimization_session import (
+from controllers.optimization_controller import (
     delete_optimization_session,
     save_optimization_session,
 )
