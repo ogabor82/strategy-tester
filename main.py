@@ -7,7 +7,7 @@ from controllers.timeframe_set_controller import get_timeframe_sets
 from controllers.strategy_controller import get_strategies
 from controllers.optimization_controller import create_optimization_session
 import optimization
-from create_session import create_session
+from controllers.backtest_controller import create_session
 
 from db.db import init_db, load_last_optimization_session, load_last_session
 

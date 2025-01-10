@@ -7,7 +7,7 @@ from controllers.backtest_controller import (
     get_backtest_sessions,
     get_backtest_slices_by_session_id,
 )
-from create_session import (
+from controllers.backtest_controller import (
     delete_backtest_session,
     save_session as save_backtest_session,
 )
