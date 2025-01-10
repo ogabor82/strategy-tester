@@ -1,12 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
-from backtest import run_backtest
+from routes.backtest_routes import backtest_routes
 from controllers.backtest_controller import (
-    get_backtest_session_stats,
-    get_backtest_sessions_by_project_id,
-    get_backtest_slices,
-    get_backtest_sessions,
-    get_backtest_slices_by_session_id,
     get_backtest_slices_by_strategy_id,
 )
 from controllers.optimization_controller import (
@@ -25,10 +20,7 @@ from create_optimization_session import (
     delete_optimization_session,
     save_optimization_session,
 )
-from create_session import (
-    delete_backtest_session,
-    save_session as save_backtest_session,
-)
+
 from optimization import run_optimization
 
 # app = Flask(__name__)
@@ -36,55 +28,8 @@ app = Flask(__name__, static_folder="reports")
 
 cors = CORS(app)
 
-
-@app.route("/backtest-results", methods=["GET"])
-@cross_origin()
-def sample():
-    results = get_backtest_slices()
-    return jsonify(results)
-
-
-@app.route("/backtest-sessions", methods=["GET"])
-@cross_origin()
-def backtest_sessions():
-    sessions = get_backtest_sessions()
-    return jsonify([dict(session) for session in sessions])
-
-
-@app.route("/backtest-sessions", methods=["POST"])
-@cross_origin()
-def create_backtest_session():
-    data = request.get_json()
-    result = save_backtest_session(data["name"], data["details"], data["project_id"])
-    return jsonify([dict(result)][0])
-
-
-@app.route("/backtest-sessions/<int:id>", methods=["GET"])
-@cross_origin()
-def backtest_session(id):
-    sessions = get_backtest_slices_by_session_id(id)
-    return jsonify([dict(session) for session in sessions])
-
-
-@app.route("/backtest-sessions/<int:id>/stats", methods=["GET"])
-@cross_origin()
-def backtest_session_stats(id):
-    stats = get_backtest_session_stats(id)
-    return jsonify(stats)
-
-
-@app.route("/projects/<int:project_id>/backtest-sessions", methods=["GET"])
-@cross_origin()
-def get_backtest_session_by_project_id(project_id):
-    sessions = get_backtest_sessions_by_project_id(project_id)
-    return jsonify([dict(session) for session in sessions])
-
-
-@app.route("/backtest-sessions/<int:id>", methods=["DELETE"])
-@cross_origin()
-def delete_backtest_session_server(id):
-    delete_backtest_session(id)
-    return jsonify({"message": "Backtest session deleted"})
+# Register the blueprint
+app.register_blueprint(backtest_routes)
 
 
 @app.route("/strategies", methods=["GET"])
@@ -169,14 +114,6 @@ def delete_optimization_session_server(id):
 def ticker_sets():
     ticker_sets = get_ticker_sets()
     return jsonify(ticker_sets)
-
-
-@app.route("/run-backtest", methods=["POST"])
-@cross_origin()
-def run_backtest_server():
-    data = request.get_json()
-    run_backtest(data)
-    return jsonify(data)
 
 
 @app.route("/run-optimization", methods=["POST"])
