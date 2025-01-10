@@ -10,6 +10,7 @@ from strategies.SeriousMACD.SeriousMACD import SeriousMACD
 from strategies.SmaCrossAdx.SmaCrossAdx import SmaCrossAdx
 from strategies.SuperTrend.SuperTrend import SuperTrend
 from strategies.HullmaCrossAdx.HullmaCrossAdx import HullmaCrossAdx
+from strategies.GoldDigger.GoldDigger import GoldDigger
 from backtesting import Backtest
 
 import seaborn as sns
@@ -87,6 +88,9 @@ def run_optimization(selected_options):
     elif selected_options["strategy"]["name"] == "HullmaCrossAdx":
         strategy = HullmaCrossAdx
         strategy_id = 6
+    elif selected_options["strategy"]["name"] == "GoldDigger":
+        strategy = GoldDigger
+        strategy_id = 7
 
     print("Selected options:")
     print(selected_options)

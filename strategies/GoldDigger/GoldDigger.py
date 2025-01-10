@@ -49,9 +49,9 @@ class GoldDigger(Strategy):
     dmi_threshold = 33  # DMI benchmark
 
     # Take profit and stop loss parameters
-    tp1_percent = 3.5  # Take profit percentage
+    tp1_level = 35  # Take profit level, 35 = 3.5%  !!!!
     tp1_qty = 100  # Take profit quantity percentage
-    sl_percent = 4.0  # Stop loss percentage
+    sl_level = 40  # Stop loss level, 40 = 4%  !!!!
 
     def init(self):
         # Trend indicators - EMA and SMA
@@ -93,8 +93,8 @@ class GoldDigger(Strategy):
             and self.volume_increased[-1]  # Volume increased
         ):
             # Calculate stop loss and take profit levels
-            sl = price * (1 - self.sl_percent / 100)
-            tp = price * (1 + self.tp1_percent / 100)
+            sl = price * (1 - self.sl_level / 1000)
+            tp = price * (1 + self.tp1_level / 1000)
 
             # Open position with SL and TP
             self.buy(sl=sl, tp=tp)
