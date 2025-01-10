@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_cors import cross_origin
-from controllers.project_controller import create_project, delete_project, get_projects
+from services.project_service import create_project, delete_project, get_projects
 
 project_routes = Blueprint("project_routes", __name__)
 

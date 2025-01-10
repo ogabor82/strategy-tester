@@ -1,11 +1,11 @@
 from flask import Blueprint, jsonify, request
 from flask_cors import cross_origin
-from controllers.optimization_controller import (
+from services.optimization_service import (
     get_optimization_sessions_by_project_id,
     get_optimization_slices_by_session_id,
     get_optimization_sessions,
 )
-from controllers.optimization_controller import (
+from services.optimization_service import (
     delete_optimization_session,
     save_optimization_session,
 )

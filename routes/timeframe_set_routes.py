@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 from flask_cors import cross_origin
-from controllers.timeframe_set_controller import (
+from services.timeframe_set_service import (
     get_timeframe_sets,
     get_timeframe_sets_with_timeframes,
 )

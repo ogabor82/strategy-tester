@@ -10,7 +10,6 @@ from strategies.RSISimple.RSISimple import RSISimple
 from strategies.HullmaCrossAdx.HullmaCrossAdx import HullmaCrossAdx
 from strategies.GoldDigger.GoldDigger import GoldDigger
 from backtesting import Backtest
-from controllers.timeframe_set_controller import get_timeframes_by_timeframe_set_id
 from utils.price_fetcher import get_price_data
 from utils.results_extractor import extract_data
 

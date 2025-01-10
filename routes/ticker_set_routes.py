@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 from flask_cors import cross_origin
-from controllers.ticker_set_controller import get_ticker_sets
+from services.ticker_set_service import get_ticker_sets
 
 ticker_set_routes = Blueprint("ticker_set_routes", __name__)
 

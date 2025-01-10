@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_cors import cross_origin
-from controllers.strategy_controller import create_strategy, get_strategies
-from controllers.backtest_controller import get_backtest_slices_by_strategy_id
+from services.strategy_service import create_strategy, get_strategies
+from services.backtest_service import get_backtest_slices_by_strategy_id
 
 strategy_routes = Blueprint("strategy_routes", __name__)
 

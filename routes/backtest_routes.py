@@ -1,13 +1,13 @@
 from flask import Blueprint, jsonify, request
 from flask_cors import cross_origin
-from controllers.backtest_controller import (
+from services.backtest_service import (
     get_backtest_session_stats,
     get_backtest_sessions_by_project_id,
     get_backtest_slices,
     get_backtest_sessions,
     get_backtest_slices_by_session_id,
 )
-from controllers.backtest_controller import (
+from services.backtest_service import (
     delete_backtest_session,
     save_session as save_backtest_session,
 )
