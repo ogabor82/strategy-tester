@@ -10,6 +10,7 @@ from services.optimization_service import (
     save_optimization_session,
 )
 from optimization import run_optimization
+from configuration.config import OptimizationConfig
 
 optimization_routes = Blueprint("optimization_routes", __name__)
 
@@ -61,3 +62,9 @@ def run_optimization_server():
     data = request.get_json()
     run_optimization(data)
     return jsonify(data)
+
+
+@optimization_routes.route("/optimization-config/maximize", methods=["GET"])
+@cross_origin()
+def get_optimization_config():
+    return jsonify(OptimizationConfig.maximize)
