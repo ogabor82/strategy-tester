@@ -1,9 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 from routes.backtest_routes import backtest_routes
-from controllers.backtest_controller import (
-    get_backtest_slices_by_strategy_id,
-)
+from routes.strategy_routes import strategy_routes
 from controllers.optimization_controller import (
     get_optimization_sessions_by_project_id,
     get_optimization_slices_by_session_id,
@@ -14,46 +12,19 @@ from controllers.timeframe_set_controller import (
     get_timeframe_sets,
     get_timeframe_sets_with_timeframes,
 )
-from controllers.strategy_controller import create_strategy, get_strategies
 from controllers.ticker_set_controller import get_ticker_sets
 from create_optimization_session import (
     delete_optimization_session,
     save_optimization_session,
 )
-
 from optimization import run_optimization
 
-# app = Flask(__name__)
 app = Flask(__name__, static_folder="reports")
-
 cors = CORS(app)
 
-# Register the blueprint
+# Register the blueprints
 app.register_blueprint(backtest_routes)
-
-
-@app.route("/strategies", methods=["GET"])
-@cross_origin()
-def strategies():
-    strategies = get_strategies()
-    return jsonify(strategies)
-
-
-@app.route("/strategies", methods=["POST"])
-@cross_origin()
-def create_new_strategy():
-    data = request.get_json()
-    name = data.get("name")
-    description = data.get("description")
-    create_strategy(name, description)
-    return jsonify({"message": "Strategy created"})
-
-
-@app.route("/strategies/<int:id>", methods=["GET"])
-@cross_origin()
-def strategy(id):
-    sessions = get_backtest_slices_by_strategy_id(id)
-    return jsonify([dict(session) for session in sessions])
+app.register_blueprint(strategy_routes)
 
 
 @app.route("/timeframe-sets", methods=["GET"])
