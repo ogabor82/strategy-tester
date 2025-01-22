@@ -62,9 +62,60 @@ def fetch_yahoo_prices(ticker, start_date, end_date, frequency):
     return df_prices
 
 
+def fetch_bitstamp_prices(ticker, start_date, end_date, frequency):
+    # Read the CSV file
+    df_prices = pd.read_csv(f"./bitstamp.testall.30min.csv")
+
+    # Convert timestamp to datetime and set as index
+    df_prices["timestamp"] = pd.to_datetime(df_prices["timestamp"], unit="s")
+    df_prices.set_index("timestamp", inplace=True)
+
+    # Filter by date range
+    df_prices = df_prices.loc[start_date:end_date]
+
+    # Resample data to match requested frequency if needed
+    if frequency != "30m":
+        # Map common frequencies to pandas offset aliases
+        freq_map = {
+            "1m": "1T",
+            "5m": "5T",
+            "15m": "15T",
+            "1h": "1H",
+            "4h": "4H",
+            "1d": "1D",
+        }
+
+        if frequency in freq_map:
+            # For downsampling (e.g., 30m to 1h)
+            df_prices = df_prices.resample(freq_map[frequency]).agg(
+                {
+                    "open": "first",
+                    "high": "max",
+                    "low": "min",
+                    "close": "last",
+                    "volume": "sum",
+                }
+            )
+
+    # Ensure column names match the expected format
+    df_prices = df_prices.rename(
+        columns={
+            "open": "Open",
+            "high": "High",
+            "low": "Low",
+            "close": "Close",
+            "volume": "Volume",
+        }
+    )
+
+    return df_prices
+
+
 def get_price_data(ticker, start_date, end_date, frequency):
     # Check if the ticker ends with "USDT"
     if ticker.endswith("USDT") or ticker.endswith("USDC"):
         return fetch_binance_prices(ticker, start_date, end_date, frequency)
+    elif ticker.endswith("USD"):
+        return fetch_bitstamp_prices(ticker, start_date, end_date, frequency)
     else:
         return fetch_yahoo_prices(ticker, start_date, end_date, frequency)

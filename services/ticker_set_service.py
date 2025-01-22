@@ -3,6 +3,8 @@ def get_ticker_sets():
         {"name": "Tech Giants", "tickers": ["AAPL", "GOOGL", "MSFT", "AMZN"]},
         {"name": "FAANG", "tickers": ["META", "AAPL", "AMZN", "NFLX", "GOOGL"]},
         {"name": "Tech Xtreme", "tickers": ["TSLA", "NVDA", "AMD", "ASML"]},
+        {"name": "Crypto Bitstamp", "tickers": ["BTCUSD"]},
+        {"name": "Crypto Bitstamp Compare", "tickers": ["BTCUSD", "BTCUSDT"]},
         {
             "name": "Cryptocurrencies",
             "tickers": ["BTCUSDT", "ETHUSDT", "LTCUSDT", "SOLUSDT", "AVAXUSDT"],
@@ -18,6 +20,10 @@ def get_ticker_sets():
         {
             "name": "Crypto exotics",
             "tickers": ["DOGEUSDT", "XRPUSDT", "SHIBUSDT", "ADAUSDT", "BNBUSDT"],
+        },
+        {
+            "name": "Crypto exotics USDC",
+            "tickers": ["DOGEUSDC", "XRPUSDC", "SHIBUSDC", "ADAUSDC", "BNBUSDC"],
         },
         {
             "name": "Crypto very exotic",
