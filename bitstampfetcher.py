@@ -49,4 +49,4 @@ df["datetime"] = pd.to_datetime(df["timestamp"], unit="s")
 
 print(df)
 
-df.to_csv("bitstamp.testall.30min.csv", index=False)
+df.to_csv("bitstamp.btc.30min.csv", index=False)

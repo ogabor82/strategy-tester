@@ -64,7 +64,7 @@ def fetch_yahoo_prices(ticker, start_date, end_date, frequency):
 
 def fetch_bitstamp_prices(ticker, start_date, end_date, frequency):
     # Read the CSV file
-    df_prices = pd.read_csv(f"./bitstamp.testall.30min.csv")
+    df_prices = pd.read_csv(f"./bitstamp.{ticker}.30min.csv")
 
     # Convert timestamp to datetime and set as index
     df_prices["timestamp"] = pd.to_datetime(df_prices["timestamp"], unit="s")
