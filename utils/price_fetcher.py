@@ -64,7 +64,7 @@ def fetch_yahoo_prices(ticker, start_date, end_date, frequency):
 
 def fetch_bitstamp_prices(ticker, start_date, end_date, frequency):
     # Read the CSV file
-    df_prices = pd.read_csv(f"./bitstamp.{ticker}.{frequency}.csv")
+    df_prices = pd.read_csv(f"./ohlc/bitstamp.{ticker}.{frequency}.csv")
 
     # Convert timestamp to datetime and set as index
     df_prices["timestamp"] = pd.to_datetime(df_prices["timestamp"], unit="s")
@@ -116,6 +116,7 @@ def get_price_data(ticker, start_date, end_date, frequency):
     if ticker.endswith("USDT") or ticker.endswith("USDC"):
         return fetch_binance_prices(ticker, start_date, end_date, frequency)
     elif ticker.endswith("USD"):
-        return fetch_bitstamp_prices(ticker, start_date, end_date, frequency)
+        # return fetch_bitstamp_prices(ticker, start_date, end_date, frequency)
+        return fetch_bitstamp_prices("btc", start_date, end_date, frequency)
     else:
         return fetch_yahoo_prices(ticker, start_date, end_date, frequency)
