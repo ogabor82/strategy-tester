@@ -64,7 +64,7 @@ def fetch_yahoo_prices(ticker, start_date, end_date, frequency):
 
 def fetch_bitstamp_prices(ticker, start_date, end_date, frequency):
     # Read the CSV file
-    df_prices = pd.read_csv(f"./bitstamp.{ticker}.30min.csv")
+    df_prices = pd.read_csv(f"./bitstamp.{ticker}.{frequency}.csv")
 
     # Convert timestamp to datetime and set as index
     df_prices["timestamp"] = pd.to_datetime(df_prices["timestamp"], unit="s")
@@ -74,7 +74,7 @@ def fetch_bitstamp_prices(ticker, start_date, end_date, frequency):
     df_prices = df_prices.loc[start_date:end_date]
 
     # Resample data to match requested frequency if needed
-    if frequency != "30m":
+    if frequency != "30m" and frequency != "4h":
         # Map common frequencies to pandas offset aliases
         freq_map = {
             "1m": "1T",
